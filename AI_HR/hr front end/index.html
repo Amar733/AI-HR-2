@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>99 AI HR - Revolutionary AI Interview Platform</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg-900: #07131f;
+        --bg-800: #0c1f31;
+        --bg-700: #13324a;
+        --panel: #11293d;
+        --panel-strong: #0f2436;
+        --line: rgba(140, 178, 210, 0.22);
+        --text-strong: #eef7ff;
+        --text-body: #c1d3e4;
+        --text-dim: #8ca7bf;
+        --primary: #ff6b3d;
+        --primary-green: #ff6b3d;
+        --primary-dark: #da4f24;
+        --primary-light: #ff936e;
+        --secondary: #2ad3bd;
+        --accent: #ffd166;
+        --white: #ffffff;
+        --radius-sm: 12px;
+        --radius-md: 18px;
+        --radius-lg: 26px;
+        --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.26);
+        --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.4);
+        --gradient-main: linear-gradient(135deg, var(--primary), #ff8155 48%, var(--accent));
+        --gradient-alt: linear-gradient(135deg, #2ad3bd 0%, #77ebd8 100%);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Manrope", "Segoe UI", sans-serif;
+        line-height: 1.7;
+        color: var(--text-body);
+        background: radial-gradient(circle at 15% -8%, #1f486b 0%, transparent 45%), radial-gradient(circle at 85% 10%, rgba(255, 107, 61, 0.2) 0%, transparent 40%), linear-gradient(165deg, var(--bg-900) 0%, var(--bg-800) 40%, #091828 100%);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 9px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #06101a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--secondary), var(--primary));
+        border-radius: 999px;
+      }
+      .navbar {
+        background: rgba(8, 20, 33, 0.72) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        padding: 1rem 0;
+        transition: all 0.25s ease;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+      .navbar.scrolled {
+        background: rgba(7, 16, 28, 0.9) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.12);
+        box-shadow: var(--shadow-sm);
+        padding: 0.72rem 0;
+      }
+      .navbar-brand img {
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+      }
+      .navbar-nav .nav-link {
+        color: var(--text-body) !important;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        margin: 0 0.5rem;
+        padding: 0.25rem 0.4rem !important;
+        position: relative;
+        transition: color 0.2s ease;
+      }
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.38rem;
+        width: 100%;
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.25s ease;
+        background: var(--gradient-main);
+      }
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link:focus-visible {
+        color: var(--text-strong) !important;
+      }
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link:focus-visible::after {
+        transform: scaleX(1);
+      }
+      .btn-nav {
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 0.7rem 1.3rem;
+        border: 1px solid transparent;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+      }
+      .btn-login {
+        color: var(--text-body);
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .btn-login:hover {
+        color: var(--text-strong);
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-1px);
+      }
+      .btn-register {
+        color: #10131d;
+        background: var(--gradient-alt);
+        box-shadow: 0 10px 24px rgba(42, 211, 189, 0.35);
+      }
+      .btn-register:hover {
+        color: #08131f;
+        transform: translateY(-2px);
+        box-shadow: 0 16px 26px rgba(42, 211, 189, 0.42);
+      }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 8.4rem 0 5.2rem;
+        position: relative;
+      }
+      .hero::before,
+      .hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      .hero::before {
+        width: 430px;
+        height: 430px;
+        top: -140px;
+        right: -90px;
+        background: radial-gradient(circle, rgba(255, 107, 61, 0.55) 0%, rgba(255, 107, 61, 0) 70%);
+        animation: drift 15s ease-in-out infinite;
+      }
+      .hero::after {
+        width: 330px;
+        height: 330px;
+        left: -120px;
+        bottom: -120px;
+        background: radial-gradient(circle, rgba(42, 211, 189, 0.45) 0%, rgba(42, 211, 189, 0) 70%);
+        animation: drift 18s ease-in-out infinite reverse;
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(0, -22px, 0);
+        }
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #0e1b26;
+        background: linear-gradient(120deg, #ffd166, #ffe3a3);
+        border-radius: 999px;
+        padding: 0.45rem 0.9rem;
+        margin-bottom: 1.2rem;
+      }
+      h1,
+      h2,
+      h3,
+      .section-title,
+      .feature-title,
+      .solution-title,
+      .footer-brand,
+      .pricing-plan {
+        font-family: "Bricolage Grotesque", sans-serif;
+        color: var(--text-strong);
+        letter-spacing: -0.02em;
+      }
+      .hero h1 {
+        font-size: clamp(2.25rem, 5vw, 4rem) !important;
+        line-height: 1.06;
+        margin-bottom: 1rem;
+        max-width: 700px;
+      }
+      .gradient-text {
+        color: #ffe3a3;
+        background: linear-gradient(100deg, #ffe3a3 0%, #ff936e 60%, #ff6b3d 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero-subtitle {
+        max-width: 560px;
+        color: var(--text-body);
+        font-size: clamp(1rem, 1.5vw, 1.18rem);
+        margin-bottom: 1.9rem;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .btn-hero,
+      .btn-cta,
+      .btn-pricing {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        border-radius: 14px;
+        border: 1px solid transparent;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+      }
+      .btn-primary-glow,
+      .btn-pricing-primary {
+        color: #fff7f3;
+        background: var(--gradient-main);
+        padding: 0.95rem 1.45rem;
+        box-shadow: 0 14px 30px rgba(255, 107, 61, 0.34);
+      }
+      .btn-primary-glow:hover,
+      .btn-pricing-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 38px rgba(255, 107, 61, 0.44);
+      }
+      .stats {
+        padding: 1rem 0 3.5rem;
+      }
+      .stat-item {
+        text-align: center;
+        background: linear-gradient(145deg, rgba(17, 41, 61, 0.72), rgba(14, 35, 52, 0.95));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 1.45rem 0.9rem;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.22s ease, border-color 0.22s ease;
+      }
+      .stat-item:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 209, 102, 0.6);
+      }
+      .stat-number {
+        font-family: "Bricolage Grotesque", sans-serif;
+        display: block;
+        color: #fff3d2;
+        font-size: clamp(1.9rem, 3vw, 2.5rem);
+        line-height: 1;
+        margin-bottom: 0.35rem;
+      }
+      .stat-label {
+        color: var(--text-dim);
+        font-weight: 600;
+        font-size: 0.86rem;
+      }
+      .features,
+      .solutions,
+      .contact,
+      .footer {
+        padding: 5.6rem 0;
+      }
+      .section-header {
+        max-width: 860px;
+        margin: 0 auto 2.7rem;
+        text-align: center;
+      }
+      .section-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        border: 1px solid rgba(42, 211, 189, 0.4);
+        background: rgba(42, 211, 189, 0.1);
+        color: #8ef9ea;
+        margin-bottom: 1rem;
+      }
+      .section-title {
+        font-size: clamp(1.9rem, 3.7vw, 3rem);
+        margin-bottom: 0.8rem;
+      }
+      .section-subtitle {
+        color: var(--text-dim);
+        font-size: 1rem;
+        max-width: 690px;
+        margin: 0 auto;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.15rem;
+      }
+      .feature-card {
+        background: linear-gradient(165deg, rgba(17, 41, 61, 0.8) 0%, rgba(14, 33, 50, 0.92) 100%);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 1.45rem;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(255, 107, 61, 0.45);
+        box-shadow: var(--shadow-md);
+      }
+      .feature-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #101722;
+        background: linear-gradient(145deg, #ffd166, #ff8f67);
+        box-shadow: 0 10px 20px rgba(255, 107, 61, 0.3);
+        margin-bottom: 0.9rem;
+      }
+      .feature-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.45rem;
+      }
+      .feature-description {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        margin: 0;
+      }
+      .solution-card {
+        background: linear-gradient(160deg, rgba(16, 39, 58, 0.92), rgba(11, 27, 42, 0.96));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: clamp(1.3rem, 3vw, 2.3rem);
+        box-shadow: var(--shadow-md);
+        margin-bottom: 1.2rem;
+      }
+      .solution-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #121a22;
+        background: var(--gradient-alt);
+        margin-bottom: 1rem;
+      }
+      .solution-title {
+        font-size: clamp(1.55rem, 3vw, 2.35rem);
+        margin-bottom: 0.6rem;
+      }
+      .solution-description {
+        color: var(--text-dim);
+        margin-bottom: 1.05rem;
+      }
+      .solution-features {
+        display: grid;
+        gap: 0.65rem;
+      }
+      .solution-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.8rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(140, 178, 210, 0.2);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .solution-feature strong {
+        color: var(--text-strong);
+      }
+      .solution-feature-icon {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(42, 211, 189, 0.18);
+        color: #88f7e8;
+      }
+      .text-muted {
+        color: var(--text-dim) !important;
+      }
+      .cta {
+        padding: 4.3rem 0;
+      }
+      .cta-content {
+        text-align: center;
+        border-radius: calc(var(--radius-lg) + 4px);
+        background: linear-gradient(130deg, rgba(255, 107, 61, 0.2) 0%, rgba(42, 211, 189, 0.16) 60%, rgba(255, 209, 102, 0.16) 100%), rgba(15, 34, 51, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: clamp(1.8rem, 5vw, 3.2rem);
+        box-shadow: var(--shadow-lg);
+      }
+      .cta-content h2 {
+        font-size: clamp(1.75rem, 3.5vw, 2.8rem);
+        margin-bottom: 0.65rem;
+      }
+      .cta-content p {
+        max-width: 780px;
+        margin: 0 auto 1.4rem;
+        color: var(--text-body);
+      }
+      .btn-cta {
+        color: #0f1722;
+        background: #fff0c2;
+        padding: 0.9rem 1.5rem;
+      }
+      .btn-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(255, 209, 102, 0.3);
+      }
+      .contact-form {
+        background: linear-gradient(165deg, rgba(16, 37, 55, 0.92), rgba(10, 25, 39, 0.96));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: clamp(1.2rem, 3vw, 2.3rem);
+        box-shadow: var(--shadow-md);
+      }
+      .form-floating > .form-control,
+      .form-floating > textarea.form-control {
+        border-radius: 14px;
+        border: 1px solid rgba(140, 178, 210, 0.26);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-strong);
+        padding-top: 1.4rem;
+      }
+      .form-floating > label {
+        color: var(--text-dim);
+      }
+      .form-control:focus {
+        border-color: rgba(42, 211, 189, 0.75);
+        box-shadow: 0 0 0 0.25rem rgba(42, 211, 189, 0.2);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text-strong);
+      }
+      .btn-pricing {
+        padding: 0.85rem 1.35rem;
+      }
+      .btn-pricing-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.24);
+        color: var(--text-strong);
+      }
+      .btn-pricing-secondary:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.11);
+      }
+      .footer {
+        padding-top: 4rem;
+        background: linear-gradient(180deg, rgba(8, 20, 32, 0) 0%, rgba(5, 12, 20, 0.65) 35%, rgba(4, 9, 15, 0.98) 100%);
+      }
+      .footer-brand {
+        font-size: 1.55rem;
+        margin-bottom: 0.7rem;
+      }
+      .footer-description {
+        color: var(--text-dim);
+        max-width: 360px;
+      }
+      .social-links {
+        display: flex;
+        gap: 0.55rem;
+      }
+      .social-link {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-body);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .social-link:hover {
+        color: #0f1823;
+        background: #ffe3a3;
+        border-color: #ffe3a3;
+        transform: translateY(-2px);
+      }
+      .footer-title {
+        color: var(--text-strong);
+        margin-bottom: 0.9rem;
+      }
+      .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .footer-links li {
+        margin-bottom: 0.5rem;
+      }
+      .footer-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .footer-links a:hover {
+        color: #fff1cb;
+      }
+      .footer-bottom {
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+        padding-top: 1.2rem;
+        text-align: center;
+      }
+      .footer-bottom p {
+        color: var(--text-dim);
+        margin: 0;
+        font-size: 0.92rem;
+      }
+      .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 10px;
+        padding: 0.4rem 0.52rem;
+      }
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(42, 211, 189, 0.3);
+      }
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28239,247,255,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          margin-top: 0.8rem;
+          border-radius: 16px;
+          padding: 0.8rem;
+          background: rgba(5, 14, 23, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .navbar-nav {
+          align-items: flex-start;
+        }
+        .btn-nav {
+          margin-top: 0.6rem;
+        }
+        .hero {
+          padding-top: 7.4rem;
+        }
+        .hero .text-center {
+          margin-top: 2rem;
+        }
+        .hero .rounded {
+          width: min(100%, 560px);
+          height: auto;
+        }
+        .feature-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 767px) {
+        .hero h1 {
+          font-size: clamp(2rem, 9vw, 2.6rem) !important;
+        }
+        .hero-subtitle {
+          font-size: 1rem;
+        }
+        .features,
+        .solutions,
+        .contact,
+        .footer {
+          padding: 4.5rem 0;
+        }
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-cta,
+        .cta-content {
+          justify-content: center;
+        }
+        .stat-item {
+          margin-bottom: 0.9rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#home">
+          <img src="logo.png" alt="AI Interview Logo" height="50" class="me-2" />
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#for-institute">For Institute</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#for-agency">For Agency</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#pricing">Pricing</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center">
+            <a href="https://panel.99aihr.com/" class="btn-nav btn-login">Login</a>
+            <a href="https://panel.99aihr.com/" class="btn-nav btn-register">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content">
+              <div class="hero-badge" data-aos="fade-up">
+                <i class="fas fa-rocket me-2"></i>
+                AI-Powered Interview Revolution
+              </div>
+              <h1 data-aos="fade-up" data-aos-delay="100" style="font-size: 40px;">
+                Transform Hiring with <br/>
+                <span class="gradient-text">Intelligent AI</span>
+                Interview Platform
+              </h1>
+              <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Revolutionize your recruitment process with advanced AI scoring, real-time behavioral analysis, and data-driven hiring decisions. Experience the future of talent acquisition.</p>
+              <div class="hero-cta" data-aos="fade-up" data-aos-delay="300">
+                <a href="https://panel.99aihr.com/" class="btn-hero btn-primary-glow">
+                  <i class="fas fa-play me-2"></i>
+                  Start Free Trial
+                </a>
+                 
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="text-center" data-aos="fade-left" data-aos-delay="400">
+               <img src="dashboard.png" alt="AI Interview Logo" height="300" class="rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item" data-aos="fade-up">
+              <span class="stat-number" data-count="10000">0</span>
+              <div class="stat-label">Interviews Processed</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+              <span class="stat-number" data-count="500">0</span>
+              <div class="stat-label">Enterprise Clients</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+              <span class="stat-number" data-count="98">0</span>
+              <div class="stat-label">Accuracy Rate (%)</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+              <span class="stat-number" data-count="75">0</span>
+              <div class="stat-label">Time Saved (%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge" data-aos="fade-up"><i class="fas fa-star me-2"></i>Features</div>
+          <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Advanced AI-Powered Interview Analytics</h2>
+          <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Experience cutting-edge technology that transforms how you evaluate, analyze, and hire candidates with unprecedented accuracy and insight.</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="feature-title">Multi-Parameter AI Scoring</h3>
+            <p class="feature-description">Comprehensive evaluation across grammar, communication clarity, technical knowledge, and behavioral consistency. Advanced red-flag detection identifies cheating attempts and off-topic responses with 99.2% accuracy.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3 class="feature-title">Real-Time Analytics</h3>
+            <p class="feature-description">Instant performance feedback with personalized coaching suggestions. Track historical trends, confidence metrics, and self-assessment data to provide actionable insights for continuous improvement.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <h3 class="feature-title">Behavioral Analysis</h3>
+            <p class="feature-description">State-of-the-art computer vision analyzes facial expressions, micro-expressions, gestures, and posture. Understand candidate confidence, stress levels, and authenticity through advanced non-verbal cue assessment.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-icon">
+              <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <h3 class="feature-title">Intelligent Skill Matching</h3>
+            <p class="feature-description">AI-powered comparison with job requirements and resume data. Identify skill gaps, prioritize training recommendations, and benchmark salary expectations against market standards for optimal hiring decisions.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-icon">
+              <i class="fas fa-thumbs-up"></i>
+            </div>
+            <h3 class="feature-title">Smart Decision Support</h3>
+            <p class="feature-description">Receive clear hire/no-hire recommendations with detailed rationale and confidence levels. Configurable scoring thresholds per role ensure consistent and objective evaluation criteria across your organization.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="feature-title">Adaptive AI Interviews</h3>
+            <p class="feature-description">Dynamic question adaptation based on candidate responses. Custom role-specific scenarios and intelligent follow-up questions create personalized interview experiences that reveal true potential and fit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="for-institute" class="solutions">
+      <div class="container">
+        <div class="solution-card" data-aos="fade-up">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="solution-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h2 class="solution-title">Transform Educational Excellence</h2>
+              <p class="solution-description">Empower your institution with AI-driven interview preparation that bridges the gap between academic achievement and professional readiness. Prepare students for real-world success with comprehensive assessment and personalized development paths.</p>
+            </div>
+            <div class="col-lg-6">
+              <div class="solution-features">
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                  <div>
+                    <strong>Student Readiness Analytics</strong>
+                    <div class="text-muted">Comprehensive assessment and progress tracking</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <div>
+                    <strong>Personalized Learning Paths</strong>
+                    <div class="text-muted">AI-driven improvement recommendations</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-trophy"></i>
+                  </div>
+                  <div>
+                    <strong>Placement Success Programs</strong>
+                    <div class="text-muted">Industry-specific interview preparation</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <div>
+                    <strong>Batch Processing</strong>
+                    <div class="text-muted">Scalable solutions for large student cohorts</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-card" data-aos="fade-up" id="for-agency">
+          <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+              <div class="solution-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <h2 class="solution-title">Scale Agency Operations</h2>
+              <p class="solution-description">Revolutionize your recruitment agency with intelligent automation and data-driven insights. Process thousands of candidates efficiently while maintaining the highest quality standards and client satisfaction.</p>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+              <div class="solution-features">
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div>
+                    <strong>Automated Screening</strong>
+                    <div class="text-muted">AI-powered candidate pre-qualification</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-layer-group"></i>
+                  </div>
+                  <div>
+                    <strong>Bulk Interview Processing</strong>
+                    <div class="text-muted">Handle hundreds of interviews simultaneously</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-sliders-h"></i>
+                  </div>
+                  <div>
+                    <strong>Client-Specific Thresholds</strong>
+                    <div class="text-muted">Customizable scoring for different clients</div>
+                  </div>
+                </div>
+                <div class="solution-feature">
+                  <div class="solution-feature-icon">
+                    <i class="fas fa-plug"></i>
+                  </div>
+                  <div>
+                    <strong>ATS Integration</strong>
+                    <div class="text-muted">Seamless workflow with existing systems</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <!-- <section id="pricing" class="pricing">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge" data-aos="fade-up"><i class="fas fa-tag me-2"></i>Pricing</div>
+          <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Choose Your Perfect Plan</h2>
+          <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Transparent pricing designed to scale with your organization. No hidden fees, no surprises.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="pricing-header">
+              <h3 class="pricing-plan">Starter</h3>
+              <div class="pricing-price">$49<span class="pricing-period">/month</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Up to 100 interviews/month
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Basic AI scoring & analytics
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Email support
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Standard reporting
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Single user dashboard
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Basic behavioral analysis
+              </li>
+            </ul>
+            <a href="#contact" class="btn-pricing btn-pricing-secondary">Get Started</a>
+          </div>
+
+          <div class="pricing-card featured" data-aos="fade-up" data-aos-delay="200">
+            <div class="pricing-header">
+              <h3 class="pricing-plan">Professional</h3>
+              <div class="pricing-price">$149<span class="pricing-period">/month</span></div>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Up to 500 interviews/month
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Advanced AI analysis suite
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Priority support & onboarding
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Advanced analytics dashboard
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Team collaboration tools
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Custom branding options
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>API access
+              </li>
+            </ul>
+            <a href="#contact" class="btn-pricing btn-pricing-primary">Choose Pro</a>
+          </div>
+
+          <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="pricing-header">
+              <h3 class="pricing-plan">Enterprise</h3>
+              <div class="pricing-price">Custom</div>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Unlimited interviews
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Full AI suite with custom models
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Dedicated success manager
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>Custom integrations & workflows
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>White-label solutions
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>99.9% SLA guarantee
+              </li>
+              <li>
+                <span class="check-icon"><i class="fas fa-check"></i></span>On-premise deployment
+              </li>
+            </ul>
+            <a href="#contact" class="btn-pricing btn-pricing-secondary">Contact Sales</a>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2 data-aos="fade-up">Ready to Revolutionize Your Hiring Process?</h2>
+          <p data-aos="fade-up" data-aos-delay="100">Join over 500+ organizations that trust 99 AI HR to make smarter, faster, and more accurate hiring decisions with the power of AI.</p>
+          <a href="https://panel.99aihr.com/" class="btn-cta" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-rocket"></i>
+            Start Your Free Trial Today
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge" data-aos="fade-up"><i class="fas fa-envelope me-2"></i>Contact</div>
+          <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Let's Start the Conversation</h2>
+          <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Ready to transform your hiring process? Our team is here to help you get started.</p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <form class="contact-form" data-aos="fade-up" data-aos-delay="300">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" required />
+                    <label for="firstName">First Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" required />
+                    <label for="lastName">Last Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required />
+                    <label for="email">Email Address</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" />
+                    <label for="phone">Phone Number</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="company" placeholder="Company Name" required />
+                    <label for="company">Company Name</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" id="message" placeholder="Tell us about your needs" style="height: 120px" required></textarea>
+                    <label for="message">Tell us about your needs</label>
+                  </div>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn-pricing btn-pricing-primary" style="width: auto; padding: 1.25rem 3rem">
+                    <i class="fas fa-paper-plane me-2"></i>
+                    Send Message
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="footer-brand"><i class="fas fa-brain me-2"></i>99 AI HR</div>
+            <p class="footer-description">Revolutionizing recruitment with AI-powered interviews, intelligent candidate assessment, and data-driven hiring decisions for the future of work.</p>
+            <div class="social-links">
+              <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Product</h5>
+            <ul class="footer-links">
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#">Demo</a></li>
+              <li><a href="#">API Documentation</a></li>
+              <li><a href="#">Integrations</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Solutions</h5>
+            <ul class="footer-links">
+              <li><a href="#for-institute">For Institutes</a></li>
+              <li><a href="#for-agency">For Agencies</a></li>
+               
+            </ul>
+          </div>
+
+          
+
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Company</h5>
+            <ul class="footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2026 99 AI HR. All rights reserved. Built with AI innovation for the future of recruitment.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        easing: "ease-out-cubic",
+        once: true,
+        offset: 100,
+        disable: function () {
+          var maxWidth = 768;
+          return window.innerWidth < maxWidth;
+        },
+      });
+
+      // Navbar scroll effect - optimized to prevent distortion
+      let ticking = false;
+
+      function updateNavbar() {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+        ticking = false;
+      }
+
+      window.addEventListener("scroll", function () {
+        if (!ticking) {
+          requestAnimationFrame(updateNavbar);
+          ticking = true;
+        }
+      });
+
+      // Smooth scrolling with offset
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            const headerOffset = 100;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Counter animation for stats - optimized
+      function animateCounter(element, target) {
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current);
+        }, 20);
+      }
+
+      // Intersection Observer for counter animation
+      const statNumbers = document.querySelectorAll(".stat-number");
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !entry.target.classList.contains("animated")) {
+              const target = parseInt(entry.target.getAttribute("data-count"));
+              animateCounter(entry.target, target);
+              entry.target.classList.add("animated");
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+          rootMargin: "0px 0px -50px 0px",
+        }
+      );
+
+      statNumbers.forEach((stat) => {
+        statsObserver.observe(stat);
+      });
+
+      // Form submission with loading state
+
+      // Replace the previous "Form submission with loading state" handler with this.
+      document.querySelector(".contact-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const form = this;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+
+        // collect values
+        const data = {
+          firstName: form.querySelector("#firstName").value.trim(),
+          lastName: form.querySelector("#lastName").value.trim(),
+          email: form.querySelector("#email").value.trim(),
+          phone: form.querySelector("#phone").value.trim(),
+          company: form.querySelector("#company").value.trim(),
+          message: form.querySelector("#message").value.trim(),
+          // optionally add more meta like page URL or user-agent
+          page: window.location.href,
+        };
+
+        // basic client-side validation
+        if (!data.firstName || !data.email || !data.company || !data.message) {
+          alert("Please fill the required fields: First name, Email, Company and Message.");
+          return;
+        }
+
+        // set loading UI
+        submitBtn.classList.add("loading");
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch("/api.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: "same-origin",
+          });
+
+          const json = await res.json();
+
+          if (res.ok && json.success) {
+            submitBtn.classList.remove("loading");
+            submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Message Sent!';
+            submitBtn.style.background = "var(--primary-green)";
+
+            // clear form
+            form.reset();
+
+            // show friendly in-page message (instead of alert)
+            setTimeout(() => {
+              submitBtn.innerHTML = originalHTML;
+              submitBtn.disabled = false;
+              submitBtn.style.background = "";
+            }, 3000);
+          } else {
+            throw new Error(json.message || "Failed to send message");
+          }
+        } catch (err) {
+          console.error("Contact send error:", err);
+          // show error to user
+          submitBtn.classList.remove("loading");
+          submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Send Failed';
+          submitBtn.style.background = "#e07a7a";
+          setTimeout(() => {
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            submitBtn.style.background = "";
+          }, 3000);
+
+          alert("Error sending message: " + (err.message || "Please try again later."));
+        }
+      });
+
+      // Enhanced mobile menu
+      const navbarToggler = document.querySelector(".navbar-toggler");
+      const navbarCollapse = document.querySelector(".navbar-collapse");
+
+      navbarToggler.addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (navbarCollapse.classList.contains("show")) {
+            navbarToggler.click();
+          }
+        });
+      });
+
+      // Reduce motion for users who prefer it
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.style.scrollBehavior = "auto";
+        AOS.init({ disable: true });
+      }
+
+      // Performance optimization: Debounce resize events
+      let resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          // Reinitialize AOS on resize if needed
+          AOS.refresh();
+        }, 250);
+      });
+
+      // Preload critical images
+      const criticalImages = [
+        // Add any critical image URLs here
+      ];
+
+      criticalImages.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interview Analysis</title>
+    <style>
+      /* same CSS as before */
+      body { font-family: Arial, sans-serif; margin: 40px; color: #1e293b; background: white; }
+      header { background: linear-gradient(90deg, #1e40af, #3b82f6); color: white; padding: 20px; text-align: center; border-radius: 8px; }
+      section { margin-top: 30px; page-break-inside: avoid; }
+      h2 { border-bottom: 2px solid #3b82f6; padding-bottom: 4px; color: #1e40af; }
+      h3 { color: #374151; margin-bottom: 8px; }
+      .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+      .score-bar { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-top: 4px; }
+      .score-fill { height: 100%; background: #1e40af; transition: width 0.3s; }
+      .chart-container { width: 100%; max-width: 600px; margin: 20px auto; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+      th, td { border: 1px solid #e2e8f0; padding: 8px; font-size: 12px; text-align: left; }
+      th { background: #3b82f6; color: white; font-weight: bold; }
+      tr:nth-child(even) { background: #f9fafb; }
+      .severity-high { color: #dc2626; font-weight: bold; }
+      .severity-medium { color: #d97706; font-weight: bold; }
+      .severity-low { color: #059669; font-weight: bold; }
+      footer { text-align: center; font-size: 10px; color: #64748b; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+      .recommendation { padding: 15px; border-radius: 8px; margin: 15px 0; }
+      .rec-hire { background: #ecfdf5; border-left: 4px solid #059669; }
+      .rec-no-hire { background: #fef2f2; border-left: 4px solid #dc2626; }
+      .rec-maybe { background: #fffbeb; border-left: 4px solid #d97706; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Interview Analysis Report</h1>
+      <div>Candidate: <%= (sessionData && sessionData.candidateInfo && sessionData.candidateInfo.name) || 'N/A' %></div>
+      <div>Generated: <%= new Date().toLocaleDateString() %></div>
+    </header>
+
+    <section>
+      <h2>Candidate Information</h2>
+      <div class="card">
+        <div>
+          <strong>Name:</strong> <%= (sessionData && sessionData.candidateInfo && sessionData.candidateInfo.name) || 'N/A' %>
+        </div>
+        <div>
+          <strong>Email:</strong> <%= (sessionData && sessionData.candidateInfo && sessionData.candidateInfo.email) || 'N/A' %>
+        </div>
+        <div>
+          <strong>Session ID:</strong> <%= (sessionData && sessionData.sessionId) || 'N/A' %>
+        </div>
+        <div>
+          <strong>Interview Date:</strong>
+          <% if (sessionData && sessionData.completedAt) { %>
+            <%= new Date(sessionData.completedAt).toLocaleString() %>
+          <% } else { %>
+            N/A
+          <% } %>
+        </div>
+        <div><strong>Status:</strong> <%= (sessionData && sessionData.status) || 'N/A' %></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Performance Summary</h2>
+      <div class="card">
+        <% 
+          const scores = [
+            ['Overall Score', (analysis && analysis.overallScore) || 0],
+            ['Technical Score', (analysis && analysis.technicalScore) || 0],
+            ['Communication Score', (analysis && analysis.communicationScore) || 0],
+            ['Behavioral Score', (analysis && analysis.behavioralScore) || 0],
+            ['Cultural Fit Score', (analysis && analysis.culturalFitScore) || 0]
+          ];
+          scores.forEach(([label, value]) => {
+        %>
+        <div style="margin-bottom: 15px">
+          <div><strong><%= label %>:</strong> <%= value %>/10</div>
+          <div class="score-bar">
+            <div class="score-fill" style="width: <%= Math.max(0, Math.min(100, (value/10) * 100)) %>%;"></div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <section>
+      <h2>Detailed Analysis</h2>
+      <% 
+        const cat_safe = (obj) => obj || {};
+        const categories = [
+          {
+            title: 'Grammar Analysis',
+            score: (analysis && analysis.grammar && analysis.grammar.score) || 0,
+            details: 'Errors: ' + (Array.isArray(analysis && analysis.grammar && analysis.grammar.errors) ? (analysis.grammar.errors.join(', ')) : ((analysis && analysis.grammar && analysis.grammar.errors) || 'None'))
+          },
+          {
+            title: 'Vocabulary Assessment',
+            score: (analysis && analysis.vocabulary && analysis.vocabulary.score) || 0,
+            details: 'Level: ' + ((analysis && analysis.vocabulary && analysis.vocabulary.level) || 'N/A') + ', Complex Words: ' + (Array.isArray(analysis && analysis.vocabulary && analysis.vocabulary.complexWords) ? (analysis.vocabulary.complexWords.join(', ')) : ((analysis && analysis.vocabulary && analysis.vocabulary.complexWords) || 'None'))
+          },
+          {
+            title: 'Fluency Analysis',
+            score: (analysis && analysis.fluency && analysis.fluency.score) || 0,
+            details: ((analysis && analysis.fluency && analysis.fluency.wordsPerMinute) || 0) + ' WPM, ' + (((analysis && analysis.fluency && analysis.fluency.pauseAnalysis) && (analysis.fluency.pauseAnalysis.totalPauses)) || 0) + ' pauses'
+          },
+          {
+            title: 'Content Relevance',
+            score: (analysis && analysis.relevance && analysis.relevance.score) || 0,
+            details: 'Keyword matches: ' + (Array.isArray((analysis && analysis.relevance && analysis.relevance.keywordMatches)) ? (analysis.relevance.keywordMatches.join(', ')) : ((analysis && analysis.relevance && analysis.relevance.keywordMatches) || 'None'))
+          },
+          {
+            title: 'Response Completeness',
+            score: (analysis && analysis.completeness && analysis.completeness.score) || 0,
+            details: ((analysis && analysis.completeness && analysis.completeness.answeredQuestions) || 0) + '/' + ((analysis && analysis.completeness && analysis.completeness.totalQuestions) || 0) + ' questions answered'
+          },
+          {
+            title: 'Personality Traits',
+            score: (analysis && analysis.personality && analysis.personality.confidence) || 0,
+            details: 'Confidence: ' + ((analysis && analysis.personality && analysis.personality.confidence) || 0) + ', Enthusiasm: ' + ((analysis && analysis.personality && analysis.personality.enthusiasm) || 0) + ', Professionalism: ' + ((analysis && analysis.personality && analysis.personality.professionalism) || 0)
+          }
+        ];
+        categories.forEach(function(cat) {
+      %>
+      <div class="card">
+        <h3><%= cat.title %> — <%= cat.score %>/10</h3>
+        <p><%= cat.details %></p>
+        <div class="score-bar">
+          <div class="score-fill" style="width: <%= Math.max(0, Math.min(100, (cat.score/10) * 100)) %>%;"></div>
+        </div>
+      </div>
+      <% }); %>
+    </section>
+
+    <section>
+      <h2>Performance Charts</h2>
+      <div class="chart-container">
+        <canvas id="barChart" width="600" height="400"></canvas>
+      </div>
+    </section>
+
+    <% if (analysis && analysis.recommendation) { %>
+    <section>
+      <h2>AI Recommendation</h2>
+      <% 
+        const decision = (analysis.recommendation && analysis.recommendation.decision) || 'unknown';
+        const recClass = decision === 'hire' ? 'rec-hire' : (decision === 'no_hire' ? 'rec-no-hire' : 'rec-maybe');
+      %>
+      <div class="recommendation <%= recClass %>">
+        <h3>Decision: <%= (decision || '').toUpperCase().replace('_', ' ') %></h3>
+        <p><strong>Confidence:</strong> <%= (analysis.recommendation && analysis.recommendation.confidence) || 0 %>%</p>
+        <p><strong>Reasoning:</strong> <%= (analysis.recommendation && analysis.recommendation.reasoning) || 'N/A' %></p>
+
+        <% if (analysis.recommendation && Array.isArray(analysis.recommendation.nextSteps) && analysis.recommendation.nextSteps.length > 0) { %>
+        <p><strong>Next Steps:</strong></p>
+        <ul>
+          <% (analysis.recommendation.nextSteps || []).forEach(function(step) { %>
+          <li><%= step %></li>
+          <% }); %>
+        </ul>
+        <% } %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (redFlags && redFlags.length > 0) { %>
+    <section>
+      <h2>Security & Behavioral Red Flags</h2>
+      <div class="card">
+        <p><strong>Total Incidents:</strong> <%= (analytics && analytics.total) || redFlags.length %></p>
+        <p><strong>Risk Breakdown:</strong> High: <%= (analytics && analytics.high) || 0 %>, Medium: <%= (analytics && analytics.medium) || 0 %>, Low: <%= (analytics && analytics.low) || 0 %></p>
+        <p><strong>Overall Risk Score:</strong> <%= (analytics && analytics.riskScore) || 0 %>%</p>
+
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Severity</th><th>Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <% (redFlags.slice(0,20) || []).forEach(function(flag) { %>
+            <tr>
+              <td>
+                <% if (flag && flag.timestamp) { %>
+                  <%= new Date(flag.timestamp).toLocaleTimeString() %>
+                <% } else { %>
+                  N/A
+                <% } %>
+              </td>
+              <td><span class="severity-<%= (flag && flag.severity) || 'low' %>"><%= ((flag && flag.severity) || 'low').toUpperCase() %></span></td>
+              <td><%= (flag && flag.type) || 'N/A' %></td>
+              <td><%= (flag && flag.description) || 'N/A' %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+
+        <% if (redFlags.length > 20) { %>
+          <p><em>... and <%= redFlags.length - 20 %> more incidents</em></p>
+        <% } %>
+      </div>
+    </section>
+    <% } %>
+
+    <footer>
+      Generated on <%= new Date().toLocaleString() %> • Powered by <%= process.env.APP_NAME || process.env.NEXT_PUBLIC_APP_NAME || "AI Interview" %>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      (function() {
+        var ctx = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Grammar', 'Vocabulary', 'Fluency', 'Relevance', 'Completeness'],
+            datasets: [{
+              label: 'Score (out of 10)',
+              data: [
+                <%= ((analysis && analysis.grammar && analysis.grammar.score) || 0) %>,
+                <%= ((analysis && analysis.vocabulary && analysis.vocabulary.score) || 0) %>,
+                <%= ((analysis && analysis.fluency && analysis.fluency.score) || 0) %>,
+                <%= ((analysis && analysis.relevance && analysis.relevance.score) || 0) %>,
+                <%= ((analysis && analysis.completeness && analysis.completeness.score) || 0) %>
+              ],
+              backgroundColor: '#3b82f6',
+              borderColor: '#1e40af',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true, max: 10, ticks: { stepSize: 1 } } },
+            plugins: { legend: { display: true, position: 'top' }, title: { display: true, text: 'Detailed Performance Analysis' } }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
