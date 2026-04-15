@@ -30,6 +30,7 @@ import {
   ArcElement,
   BarElement,
 } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import withAuth from "../hoc/withAuth";
 import { APP_NAME } from "../utils/constants";
 
@@ -43,7 +44,8 @@ ChartJS.register(
   Tooltip,
   Legend,
   ArcElement,
-  BarElement
+  BarElement,
+  ChartDataLabels
 );
 
 function Dashboard() {
@@ -178,9 +180,12 @@ function Dashboard() {
         {
           label: "Interviews Completed",
           data: [12, 19, 8, 15, 22, 18, 25],
-          borderColor: "rgb(31, 162, 166)",
-          backgroundColor: "rgba(31, 162, 166, 0.1)",
-          tension: 0.4,
+          backgroundColor: "#1a3a52",
+          borderColor: "#0f2438",
+          borderWidth: 2,
+          borderRadius: 4,
+          barThickness: "flex",
+          maxBarThickness: 50,
         },
       ],
     };
@@ -335,112 +340,103 @@ function Dashboard() {
         </div>
 
         {/* Statistics Cards */}
-        <Row className="mb-4">
-          <Col xl={3} md={6} className="mb-3">
-            <Card className="stat-card border-0 shadow-sm h-100">
-              <Card.Body>
-                <div className="d-flex align-items-center">
-                  <div className="stat-icon bg-primary-subtle text-primary rounded-circle p-3 me-3">
-                    <i className="bi bi-robot fs-4"></i>
+        <Row className="mb-4 g-3">
+          <Col xl={3} md={6}>
+            <Card className="stat-card stat-card-primary border-0 h-100 overflow-hidden position-relative">
+              <div className="stat-card-bg"></div>
+              <Card.Body className="position-relative">
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                  <div className="stat-icon-modern bg-primary">
+                    <i className="bi bi-robot"></i>
                   </div>
-                  <div className="flex-grow-1">
-                    <div className="stat-value h3 mb-0">{stats.totalJobs}</div>
-                    <div className="stat-label text-muted small">
-                      AI Interview Jobs
+                  <Badge bg="primary" className="stat-badge">Jobs</Badge>
+                </div>
+                <div className="stat-content">
+                  <h2 className="stat-value-modern mb-1">{stats.totalJobs}</h2>
+                  <p className="stat-label-modern mb-2">AI Interview Jobs</p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="stat-trend-modern">
+                      <i className="bi bi-arrow-up-short"></i>
+                      <span>{stats.activeJobs} active</span>
                     </div>
-                    <div className="stat-trend">
-                      <small className="text-success">
-                        <i className="bi bi-arrow-up me-1"></i>
-                        {stats.activeJobs} active
-                      </small>
-                    </div>
+                    <div className="stat-percentage">+12%</div>
                   </div>
                 </div>
               </Card.Body>
             </Card>
           </Col>
 
-          <Col xl={3} md={6} className="mb-3">
-            <Card className="stat-card border-0 shadow-sm h-100">
-              <Card.Body>
-                <div className="d-flex align-items-center">
-                  <div className="stat-icon bg-success-subtle text-success rounded-circle p-3 me-3">
-                    <i className="bi bi-camera-video fs-4"></i>
+          <Col xl={3} md={6}>
+            <Card className="stat-card stat-card-success border-0 h-100 overflow-hidden position-relative">
+              <div className="stat-card-bg"></div>
+              <Card.Body className="position-relative">
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                  <div className="stat-icon-modern bg-success">
+                    <i className="bi bi-camera-video"></i>
                   </div>
-                  <div className="flex-grow-1">
-                    <div className="stat-value h3 mb-0">
-                      {stats.totalInterviews}
+                  <Badge bg="success" className="stat-badge">Interviews</Badge>
+                </div>
+                <div className="stat-content">
+                  <h2 className="stat-value-modern mb-1">{stats.totalInterviews}</h2>
+                  <p className="stat-label-modern mb-2">Total Interviews</p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="stat-trend-modern">
+                      <i className="bi bi-check-circle-fill"></i>
+                      <span>{stats.completedInterviews} done</span>
                     </div>
-                    <div className="stat-label text-muted small">
-                      Total Interviews
-                    </div>
-                    <div className="stat-trend">
-                      <small className="text-success">
-                        <i className="bi bi-check-circle me-1"></i>
-                        {stats.completedInterviews} completed
-                      </small>
-                    </div>
+                    <div className="stat-percentage">+{Math.round((stats.completedInterviews / stats.totalInterviews) * 100) || 0}%</div>
                   </div>
                 </div>
               </Card.Body>
             </Card>
           </Col>
 
-          <Col xl={3} md={6} className="mb-3">
-            <Card className="stat-card border-0 shadow-sm h-100">
-              <Card.Body>
-                <div className="d-flex align-items-center">
-                  <div className="stat-icon bg-warning-subtle text-warning rounded-circle p-3 me-3">
-                    <i className="bi bi-star fs-4"></i>
+          <Col xl={3} md={6}>
+            <Card className="stat-card stat-card-warning border-0 h-100 overflow-hidden position-relative">
+              <div className="stat-card-bg"></div>
+              <Card.Body className="position-relative">
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                  <div className="stat-icon-modern bg-warning">
+                    <i className="bi bi-star-fill"></i>
                   </div>
-                  <div className="flex-grow-1">
-                    <div className="stat-value h3 mb-0">
-                      {stats.avgAIScore.toFixed(1)}/10
+                  <Badge bg="warning" className="stat-badge">Score</Badge>
+                </div>
+                <div className="stat-content">
+                  <h2 className="stat-value-modern mb-1">{stats.avgAIScore.toFixed(1)}<span className="stat-unit">/10</span></h2>
+                  <p className="stat-label-modern mb-2">Average AI Score</p>
+                  <div className="stat-progress-modern">
+                    <div className="progress-track">
+                      <div 
+                        className="progress-fill bg-warning" 
+                        style={{ width: `${stats.avgAIScore * 10}%` }}
+                      ></div>
                     </div>
-                    <div className="stat-label text-muted small">
-                      Average AI Score
-                    </div>
-                    <div className="stat-progress mt-2">
-                      <ProgressBar
-                        now={stats.avgAIScore * 10}
-                        variant="warning"
-                        style={{ height: "4px" }}
-                      />
-                    </div>
+                    <span className="progress-label">{(stats.avgAIScore * 10).toFixed(0)}%</span>
                   </div>
                 </div>
               </Card.Body>
             </Card>
           </Col>
 
-          <Col xl={3} md={6} className="mb-3">
-            <Card className="stat-card border-0 shadow-sm h-100">
-              <Card.Body>
-                <div className="d-flex align-items-center">
-                  <div className="stat-icon bg-info-subtle text-info rounded-circle p-3 me-3">
-                    <i className="bi bi-trophy fs-4"></i>
+          <Col xl={3} md={6}>
+            <Card className="stat-card stat-card-info border-0 h-100 overflow-hidden position-relative">
+              <div className="stat-card-bg"></div>
+              <Card.Body className="position-relative">
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                  <div className="stat-icon-modern bg-info">
+                    <i className="bi bi-trophy-fill"></i>
                   </div>
-                  <div className="flex-grow-1">
-                    <div className="stat-value h3 mb-0">
-                      {stats.passRate.toFixed(0)}%
+                  <Badge bg="info" className="stat-badge">Success</Badge>
+                </div>
+                <div className="stat-content">
+                  <h2 className="stat-value-modern mb-1">{stats.passRate.toFixed(0)}<span className="stat-unit">%</span></h2>
+                  <p className="stat-label-modern mb-2">Success Rate</p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className={`stat-trend-modern ${stats.passRate >= 70 ? 'trend-up' : 'trend-neutral'}`}>
+                      <i className={`bi ${stats.passRate >= 70 ? 'bi-arrow-up-short' : 'bi-dash'}`}></i>
+                      <span>{stats.totalCandidates} candidates</span>
                     </div>
-                    <div className="stat-label text-muted small">
-                      Success Rate
-                    </div>
-                    <div className="stat-trend">
-                      <small
-                        className={
-                          stats.passRate >= 70 ? "text-success" : "text-warning"
-                        }
-                      >
-                        <i
-                          className={`bi ${
-                            stats.passRate >= 70 ? "bi-arrow-up" : "bi-dash"
-                          } me-1`}
-                        ></i>
-                        {stats.totalCandidates} candidates
-                      </small>
-                    </div>
+                    <div className="stat-percentage">{stats.passRate >= 70 ? 'High' : 'Med'}</div>
                   </div>
                 </div>
               </Card.Body>
@@ -466,13 +462,34 @@ function Dashboard() {
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "250px" }}>
-                      <Line
-                        data={analytics.completionTrend}
+                      <Bar
+                        data={{
+                          ...analytics.completionTrend,
+                          datasets: analytics.completionTrend.datasets.map(dataset => ({
+                            ...dataset,
+                            backgroundColor: "#1a3a52",
+                            borderColor: "#0f2438",
+                            borderWidth: 2,
+                            borderRadius: 4,
+                            barThickness: "flex",
+                            maxBarThickness: 50,
+                            hoverBackgroundColor: "#2d5a7b",
+                            hoverBorderColor: "#1a3a52",
+                            hoverBorderWidth: 3,
+                          }))
+                        }}
                         options={{
                           responsive: true,
                           maintainAspectRatio: false,
                           plugins: {
                             legend: { display: false },
+                            datalabels: {
+                              color: '#ffffff',
+                              font: { size: 14, weight: 'bold' },
+                              anchor: 'end',
+                              align: 'start',
+                              formatter: (value) => value > 0 ? value : ''
+                            }
                           },
                           scales: {
                             y: {
@@ -494,7 +511,10 @@ function Dashboard() {
               <Col lg={4} className="mb-4">
                 <Card className="border-0 shadow-sm h-100">
                   <Card.Header className="bg-white border-0">
-                    <h6 className="mb-0">🎯 Job Difficulty</h6>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <h6 className="mb-0">🎯 Job Difficulty</h6>
+                      <Badge bg="primary-subtle" text="primary">Distribution</Badge>
+                    </div>
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "250px" }}>
@@ -503,11 +523,41 @@ function Dashboard() {
                         options={{
                           responsive: true,
                           maintainAspectRatio: false,
+                          cutout: '65%',
                           plugins: {
                             legend: {
                               position: "bottom",
-                              labels: { fontSize: 12 },
+                              labels: { 
+                                fontSize: 12,
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { size: 11, weight: '500' }
+                              },
                             },
+                            tooltip: {
+                              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                              padding: 12,
+                              titleFont: { size: 13, weight: 'bold' },
+                              bodyFont: { size: 12 },
+                              callbacks: {
+                                label: function(context) {
+                                  const label = context.label || '';
+                                  const value = context.parsed || 0;
+                                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                  const percentage = ((value / total) * 100).toFixed(1);
+                                  return `${label}: ${value} (${percentage}%)`;
+                                }
+                              }
+                            },
+                            datalabels: {
+                              color: '#fff',
+                              font: { size: 14, weight: 'bold' },
+                              formatter: (value, context) => {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return percentage > 5 ? `${percentage}%` : '';
+                              }
+                            }
                           },
                         }}
                       />
@@ -810,12 +860,170 @@ function Dashboard() {
 
       <style jsx>{`
         .stat-card {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .stat-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+          transform: translateY(-8px);
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card-bg {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          opacity: 0.1;
+          transform: translate(30%, -30%);
+          transition: all 0.3s ease;
+        }
+
+        .stat-card-primary .stat-card-bg {
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        .stat-card-success .stat-card-bg {
+          background: linear-gradient(135deg, #1fa2a6, #0d7377);
+        }
+        .stat-card-warning .stat-card-bg {
+          background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        .stat-card-info .stat-card-bg {
+          background: linear-gradient(135deg, #38bdf8, #0284c7);
+        }
+
+        .stat-card:hover .stat-card-bg {
+          transform: translate(20%, -20%) scale(1.2);
+          opacity: 0.15;
+        }
+
+        .stat-icon-modern {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22px;
+          color: white;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon-modern {
+          transform: scale(1.1) rotate(5deg);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-badge {
+          font-size: 10px;
+          font-weight: 600;
+          padding: 4px 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .stat-value-modern {
+          font-size: 2.5rem;
+          font-weight: 800;
+          line-height: 1;
+          color: #1e293b;
+          margin: 0;
+        }
+
+        .stat-unit {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #64748b;
+          margin-left: 2px;
+        }
+
+        .stat-label-modern {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #64748b;
+          margin: 0;
+        }
+
+        .stat-trend-modern {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.813rem;
+          font-weight: 600;
+          color: #10b981;
+        }
+
+        .stat-trend-modern.trend-neutral {
+          color: #f59e0b;
+        }
+
+        .stat-trend-modern i {
+          font-size: 1.2rem;
+        }
+
+        .stat-percentage {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #10b981;
+          background: rgba(16, 185, 129, 0.1);
+          padding: 2px 8px;
+          border-radius: 6px;
+        }
+
+        .stat-progress-modern {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .progress-track {
+          flex: 1;
+          height: 6px;
+          background: #e2e8f0;
+          border-radius: 10px;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .progress-fill {
+          height: 100%;
+          border-radius: 10px;
+          transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .progress-fill::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+          );
+          animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        .progress-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #64748b;
+          min-width: 35px;
+          text-align: right;
         }
 
         .stat-icon {
