@@ -179,7 +179,7 @@ function JobsPage() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h2 className="mb-1">🤖 AI Interview Jobs</h2>
+            <h2 className="mb-1"> AI Interview Jobs</h2>
             <p className="text-muted mb-0">
               Create and manage AI-powered interview jobs
             </p>

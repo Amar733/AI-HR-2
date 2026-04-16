@@ -1,4 +1,4 @@
-import { Card, Form, Button, Row, Col } from 'react-bootstrap'
+import { Card, Form, Button, Row, Col, InputGroup } from 'react-bootstrap'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAuth } from '../../contexts/AuthContext'
@@ -25,11 +25,15 @@ export default function ProfileSettings({ settings, onUpdate }) {
   }
 
   return (
-    <Card>
-      <Card.Header>
-        <h5 className="mb-0">Profile Information</h5>
+    <Card className="border-0 shadow-sm">
+      <Card.Header className="bg-white border-bottom py-3">
+        <div className="d-flex align-items-center">
+          <i className="bi bi-person-circle text-primary fs-4 me-2"></i>
+          <h5 className="mb-0 fw-semibold">Profile Information</h5>
+        </div>
+        <p className="text-muted small mb-0 mt-1">Update your personal details and contact information</p>
       </Card.Header>
-      <Card.Body>
+      <Card.Body className="p-4">
         <Formik
           initialValues={{
             name: user?.name || '',
@@ -44,31 +48,47 @@ export default function ProfileSettings({ settings, onUpdate }) {
             <Form onSubmit={handleSubmit}>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Full Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      isInvalid={touched.name && errors.name}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.name}
-                    </Form.Control.Feedback>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semibold">
+                      <i className="bi bi-person me-2 text-muted"></i>
+                      Full Name
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
+                        isInvalid={touched.name && errors.name}
+                        placeholder="Enter your full name"
+                        className="py-2"
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.name}
+                      </Form.Control.Feedback>
+                    </InputGroup>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      value={values.email}
-                      disabled
-                      className="bg-light"
-                    />
-                    <Form.Text className="text-muted">
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semibold">
+                      <i className="bi bi-envelope me-2 text-muted"></i>
+                      Email Address
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={values.email}
+                        disabled
+                        className="bg-light py-2"
+                      />
+                      <InputGroup.Text className="bg-light">
+                        <i className="bi bi-lock-fill text-muted"></i>
+                      </InputGroup.Text>
+                    </InputGroup>
+                    <Form.Text className="text-muted d-flex align-items-center mt-2">
+                      <i className="bi bi-info-circle me-1"></i>
                       Email cannot be changed. Contact support if needed.
                     </Form.Text>
                   </Form.Group>
@@ -77,14 +97,19 @@ export default function ProfileSettings({ settings, onUpdate }) {
 
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Company</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semibold">
+                      <i className="bi bi-building me-2 text-muted"></i>
+                      Company
+                    </Form.Label>
                     <Form.Control
                       type="text"
                       name="company"
                       value={values.company}
                       onChange={handleChange}
                       isInvalid={touched.company && errors.company}
+                      placeholder="Enter your company name"
+                      className="py-2"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.company}
@@ -92,14 +117,19 @@ export default function ProfileSettings({ settings, onUpdate }) {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Phone Number</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semibold">
+                      <i className="bi bi-telephone me-2 text-muted"></i>
+                      Phone Number
+                    </Form.Label>
                     <Form.Control
                       type="tel"
                       name="phone"
                       value={values.phone}
                       onChange={handleChange}
                       isInvalid={touched.phone && errors.phone}
+                      placeholder="Enter your phone number"
+                      className="py-2"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.phone}
@@ -108,14 +138,33 @@ export default function ProfileSettings({ settings, onUpdate }) {
                 </Col>
               </Row>
 
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end gap-2 pt-3 border-top">
+                <Button
+                  type="button"
+                  variant="outline-secondary"
+                  disabled={isSubmitting}
+                  onClick={() => window.location.reload()}
+                >
+                  <i className="bi bi-arrow-clockwise me-2"></i>
+                  Reset
+                </Button>
                 <Button
                   type="submit"
                   variant="primary"
                   disabled={isSubmitting}
-                  className="gradient-btn"
+                  className="gradient-btn px-4"
                 >
-                  {isSubmitting ? 'Saving...' : 'Save Changes'}
+                  {isSubmitting ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <i className="bi bi-check-circle me-2"></i>
+                      Save Changes
+                    </>
+                  )}
                 </Button>
               </div>
             </Form>
