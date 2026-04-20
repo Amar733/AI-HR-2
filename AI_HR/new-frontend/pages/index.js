@@ -1,0 +1,127 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import LoginForm from "../components/auth/LoginForm";
+import SignupForm from "../components/auth/SignupForm";
+import { useAuth } from "../contexts/AuthContext";
+import { useLoading } from "../contexts/LoadingContext";
+import Toast from "../components/ui/Toast";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import Head from "next/head";
+import { APP_NAME } from "../utils/constants";
+
+export default function Home() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
+  const { user, loading } = useAuth();
+  const { isLoading } = useLoading();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && !loading) {
+      router.push("/dashboard");
+    }
+  }, [user, loading, router]);
+
+  const showToast = (message, type) => {
+    setToast({ show: true, message, type });
+  };
+
+  const hideToast = () => {
+    setToast((prev) => ({ ...prev, show: false }));
+  };
+
+  if (loading || isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <>
+      <Head>
+        <title>{`Sign In | ${APP_NAME}`}</title>
+        <meta
+          name="description"
+          content={`Sign in to your ${APP_NAME} account to manage interviews and candidates`}
+        />
+      </Head>
+
+      <div className="auth-page">
+        <Container fluid className="min-vh-100">
+          <Row className="min-vh-100 align-items-center">
+            <Col lg={3} xs={12}></Col>
+            <Col
+              lg={6}
+              xs={12}
+              className="d-flex align-items-center justify-content-center p-4 p-lg-5"
+            >
+              <div className="w-100 auth-form-container">
+                <div className="auth-form-wrapper">
+                  {isLogin ? (
+                    <LoginForm
+                      onSuccess={() => router.push("/dashboard")}
+                      onSwitchToSignup={() => setIsLogin(false)}
+                      onShowToast={showToast}
+                    />
+                  ) : (
+                    <SignupForm
+                      onSuccess={() => {
+                        showToast(
+                          "Account created successfully! Please sign in.",
+                          "success"
+                        );
+                        setIsLogin(true);
+                      }}
+                      onSwitchToLogin={() => setIsLogin(true)}
+                      onShowToast={showToast}
+                    />
+                  )}
+
+                  {/* Mobile Features - Only visible on mobile */}
+                  <div className="d-lg-none mt-4">
+                    <div className="mobile-features">
+                      <h6 className="text-center mb-3 text-muted">
+                        {`Why choose ${APP_NAME}?`}
+                      </h6>
+                      <Row className="text-center">
+                        <Col xs={4}>
+                          <i className="bi bi-calendar-check text-primary mb-2 fs-4"></i>
+                          <small className="d-block text-muted">
+                            Easy Scheduling
+                          </small>
+                        </Col>
+                        <Col xs={4}>
+                          <i className="bi bi-people text-success mb-2 fs-4"></i>
+                          <small className="d-block text-muted">
+                            Team Collaboration
+                          </small>
+                        </Col>
+                        <Col xs={4}>
+                          <i className="bi bi-graph-up text-info mb-2 fs-4"></i>
+                          <small className="d-block text-muted">
+                            Analytics
+                          </small>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col lg={3} xs={12}></Col>
+          </Row>
+        </Container>
+
+        <Toast
+          show={toast.show}
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+        />
+      </div>
+    </>
+  );
+}
