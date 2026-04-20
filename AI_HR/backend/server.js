@@ -27,7 +27,7 @@ const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
       ? [process.env.FRONTEND_URL, "https://your-domain.com"]
-      : ["http://localhost:3000", "http://127.0.0.1:3000"],
+      : ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://localhost:52137", "http://localhost:5000"],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
