@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Row,
@@ -47,11 +47,9 @@ function JobsPage() {
     type: "success",
   });
 
-  useEffect(() => {
-    fetchJobs();
-  }, [filters]);
 
-  const fetchJobs = async () => {
+
+  const fetchJobs = useCallback(async () => {
     try {
       const response = await jobAPI.getAll(filters);
       setJobs(response.jobs);
@@ -75,7 +73,11 @@ function JobsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Row,
@@ -65,15 +65,11 @@ function Dashboard() {
     type: "success",
   });
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, [timeRange]);
-
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
   };
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -143,7 +139,11 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData, timeRange]);
 
   const calculateOverallPassRate = (jobs) => {
     const totalCompleted = jobs.reduce(
