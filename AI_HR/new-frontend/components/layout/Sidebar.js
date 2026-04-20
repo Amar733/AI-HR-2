@@ -119,70 +119,70 @@ export default function Sidebar({ show, handleClose, user }) {
         placement="start"
         className="sidebar-offcanvas d-lg-none"
       >
-        <Offcanvas.Header closeButton className="border-bottom">
+        <Offcanvas.Header closeButton className="border-bottom py-3">
           <Offcanvas.Title>
             <div className="d-flex align-items-center">
-              <span className="gradient-text fw-bold fs-5">{APP_NAME}</span>
+              <span className="brand-title fw-bold fs-4">{APP_NAME}</span>
             </div>
           </Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body className="p-0">
           {/* Mobile User Info */}
-          <div className="sidebar-user-info p-3 border-bottom">
+          <div className="p-4 border-bottom bg-light">
             <div className="d-flex align-items-center">
-              <div className="user-avatar me-3">
+              <div className="user-avatar me-3 shadow-sm" style={{ width: '50px', height: '50px', fontSize: '20px', background: '#000', color: '#fff' }}>
                 {user?.name?.charAt(0)?.toUpperCase() || "U"}
               </div>
               <div className="flex-grow-1">
-                <div className="fw-semibold">{user?.name || "User"}</div>
-                <small className="text-muted">
+                <div className="fw-bold fs-6">{user?.name || "User"}</div>
+                <div className="text-muted small" style={{ letterSpacing: '0.02em' }}>
                   {user?.company || "Company"}
-                </small>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Mobile Navigation */}
-          <Nav className="flex-column">
+          <Nav className="flex-column py-2">
             {navItems.map((item) => (
               <Nav.Link
                 key={item.href}
                 as={Link}
                 href={item.href}
-                className={`sidebar-nav-link ${
-                  isActive(item.href) ? "active" : ""
+                className={`px-4 py-3 border-0 d-flex align-items-center justify-content-between ${
+                  isActive(item.href) ? "bg-light text-dark fw-bold border-start border-4 border-dark" : "text-secondary fw-semibold"
                 }`}
                 onClick={handleClose}
+                style={{ transition: 'all 0.2s' }}
               >
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <i className={`bi ${item.icon} me-3`}></i>
-                    <span>{item.label}</span>
-                  </div>
-                  {item.badge && (
-                    <Badge
-                      bg={item.badge === "Trial" ? "warning" : "primary"}
-                      pill
-                    >
-                      {item.badge}
-                    </Badge>
-                  )}
+                <div className="d-flex align-items-center">
+                  <i className={`bi ${isActive(item.href) ? item.icon + '-fill' : item.icon} me-3 fs-5 ${isActive(item.href) ? 'text-dark' : ''}`}></i>
+                  <span>{item.label}</span>
                 </div>
+                {item.badge && (
+                  <Badge
+                    bg={item.badge === "Trial" ? "warning" : "dark"}
+                    pill
+                  >
+                    {item.badge}
+                  </Badge>
+                )}
               </Nav.Link>
             ))}
           </Nav>
 
           {/* Mobile Upgrade Banner */}
           {user?.subscription?.status === "trial" && (
-            <div className="p-3">
-              <div className="upgrade-banner text-center p-3">
-                <i className="bi bi-star text-warning fs-4 mb-2"></i>
-                <h6 className="fw-semibold">Upgrade to Pro</h6>
-                <p className="small text-muted mb-3">
-                  Unlock unlimited interviews
+            <div className="p-1">
+              <div className="upgrade-banner text-center p-4 shadow-lg" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', borderRadius: '20px' }}>
+                <div className="bg-warning text-dark d-inline-flex rounded-circle p-2 mb-3 shadow-sm">
+                  <i className="bi bi-stars fs-4"></i>
+                </div>
+                <h6 className="fw-bold text-white mb-2">Elevate to Premium</h6>
+                <p className="text-white-50 small mb-4 px-2">
+                  Unlock unlimited AI interviews and advanced candidate insights.
                 </p>
-                <Link href="/payments" className="btn btn-warning btn-sm w-100">
+                <Link href="/payments" className="btn btn-warning fw-bold text-dark w-100 py-2 shadow-sm" style={{ borderRadius: '12px' }}>
                   Upgrade Now
                 </Link>
               </div>

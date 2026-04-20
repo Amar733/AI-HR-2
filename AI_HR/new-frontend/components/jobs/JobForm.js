@@ -151,11 +151,14 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
         }) => (
           <Form onSubmit={handleSubmit}>
             {/* Basic Information */}
-            <Card className="mb-4">
-              <Card.Header>
-                <h5 className="mb-0">📋 Basic Information</h5>
+            <Card className="border-0 shadow-sm mb-4" style={{ borderRadius: '16px' }}>
+              <Card.Header className="bg-white border-0 py-3">
+                <h5 className="mb-0 fw-bold d-flex align-items-center">
+                  <i className="bi bi-info-circle me-2 text-dark"></i>
+                  Basic Information
+                </h5>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="pt-0">
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
@@ -167,6 +170,8 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
                         onChange={handleChange}
                         isInvalid={touched.title && errors.title}
                         placeholder="e.g., Senior Software Engineer"
+                        className="py-2 px-3 border-light-subtle"
+                        style={{ borderRadius: '10px' }}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.title}
@@ -245,11 +250,14 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
             </Card>
 
             {/* Salary Information */}
-            <Card className="mb-4">
-              <Card.Header>
-                <h5 className="mb-0">💰 Salary Information</h5>
+            <Card className="border-0 shadow-sm mb-4" style={{ borderRadius: '16px' }}>
+              <Card.Header className="bg-white border-0 py-3">
+                <h5 className="mb-0 fw-bold d-flex align-items-center">
+                  <i className="bi bi-cash-stack me-2 text-dark"></i>
+                  Salary Information
+                </h5>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="pt-0">
                 <Row>
                   <Col md={3}>
                     <Form.Group className="mb-3">
@@ -312,11 +320,14 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
             </Card>
 
             {/* Interview Configuration */}
-            <Card className="mb-4">
-              <Card.Header>
-                <h5 className="mb-0">🎯 Interview Configuration</h5>
+            <Card className="border-0 shadow-sm mb-4" style={{ borderRadius: '16px' }}>
+              <Card.Header className="bg-white border-0 py-3">
+                <h5 className="mb-0 fw-bold d-flex align-items-center">
+                  <i className="bi bi-sliders me-2 text-dark"></i>
+                  Interview Configuration
+                </h5>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="pt-0">
                 <Row>
                   <Col md={4}>
                     <Form.Group className="mb-3">
@@ -491,11 +502,14 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
             </Card>
 
             {/* Required Skills */}
-            <Card className="mb-4">
-              <Card.Header>
-                <h5 className="mb-0">🛠️ Required Skills</h5>
+            <Card className="border-0 shadow-sm mb-4" style={{ borderRadius: '16px' }}>
+              <Card.Header className="bg-white border-0 py-3">
+                <h5 className="mb-0 fw-bold d-flex align-items-center">
+                  <i className="bi bi-tools me-2 text-dark"></i>
+                  Required Skills
+                </h5>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="pt-0">
                 <FieldArray name="requiredSkills">
                   {({ push, remove }) => (
                     <div>
@@ -546,6 +560,7 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
                                 checked={skill.mandatory}
                                 onChange={handleChange}
                                 label="Required"
+                                className="custom-switch"
                               />
                             </Form.Group>
                           </Col>
@@ -562,8 +577,10 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
                         </Row>
                       ))}
                       <Button
-                        variant="outline-primary"
+                        variant="outline-dark"
                         size="sm"
+                        className="fw-bold theme-outline-btn mt-3"
+                        style={{ borderRadius: '10px', padding: '10px 24px' }}
                         onClick={() =>
                           push({
                             skill: "",
@@ -572,7 +589,8 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
                           })
                         }
                       >
-                        + Add Required Skill
+                        <i className="bi bi-plus-lg me-2"></i>
+                        Add Required Skill
                       </Button>
                     </div>
                   )}
@@ -581,34 +599,38 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
             </Card>
 
             {/* AI Question Generation */}
-            <Card className="mb-4">
-              <Card.Header>
-                <h5 className="mb-0">🤖 AI Question Generation</h5>
+            <Card className="border-0 shadow-sm mb-4" style={{ borderRadius: '16px' }}>
+              <Card.Header className="bg-white border-0 py-3">
+                <h5 className="mb-0 fw-bold d-flex align-items-center">
+                  <i className="bi bi-robot me-2 text-dark"></i>
+                  AI Question Generation
+                </h5>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="pt-0">
                 <Form.Check
                   type="switch"
                   checked={generateQuestions}
                   onChange={(e) => setGenerateQuestions(e.target.checked)}
                   label="Generate AI-powered questions based on job requirements"
-                  className="mb-3"
+                  className="mb-4 custom-switch"
                 />
 
                 {generateQuestions && (
-                  <Alert variant="info">
-                    <Alert.Heading>🧠 AI Question Generation</Alert.Heading>
-                    <p>
-                      Our AI will analyze your job requirements and
-                      automatically generate relevant interview questions based
-                      on:
+                  <div className="p-4 rounded-4 border shadow-sm mb-2" style={{ background: '#f0f9ff' }}>
+                    <div className="d-flex align-items-center mb-2 text-primary">
+                       <i className="bi bi-cpu-fill fs-4 me-3"></i>
+                       <h6 className="mb-0 fw-bold">AI Processing Engine</h6>
+                    </div>
+                    <p className="small text-muted mb-2 ms-5">
+                      Our AI will analyze your requirements and automatically generate relevant interview questions based on:
                     </p>
-                    <ul className="mb-0">
+                    <ul className="small text-muted mb-0 ms-5">
                       <li>Required skills and proficiency levels</li>
                       <li>Job description and responsibilities</li>
                       <li>Experience requirements</li>
                       <li>Difficulty level and question distribution</li>
                     </ul>
-                  </Alert>
+                  </div>
                 )}
               </Card.Body>
             </Card>
@@ -624,9 +646,10 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
               </Button>
               <Button
                 type="submit"
-                variant="primary"
+                variant="dark"
                 disabled={isSubmitting || loading}
-                className="gradient-btn"
+                className="px-5 py-2 fw-bold shadow-sm"
+                style={{ borderRadius: '10px' }}
               >
                 {isSubmitting ? (
                   <>
@@ -643,6 +666,34 @@ export default function JobForm({ job, onSubmit, onCancel, loading = false }) {
           </Form>
         )}
       </Formik>
+      <style jsx>{`
+        :global(.custom-switch .form-check-input:checked) {
+          background-color: #0c9488 !important;
+          border-color: #0c9488 !important;
+        }
+        :global(.form-control, .form-select, select, input, textarea) {
+          border-radius: 12px !important;
+          padding-top: 10px !important;
+          padding-bottom: 10px !important;
+          border: 1px solid #e2e8f0 !important;
+          background-clip: padding-box !important;
+        }
+        :global(.form-control:focus, .form-select:focus) {
+          border-color: #000000 !important;
+          box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.05) !important;
+        }
+        :global(.theme-outline-btn) {
+          border-color: #dee2e6 !important;
+          color: #475569 !important;
+          transition: all 0.2s ease !important;
+        }
+        :global(.theme-outline-btn:hover) {
+          background-color: #0c9488 !important;
+          border-color: #0c9488 !important;
+          color: white !important;
+          transform: translateY(-1px);
+        }
+      `}</style>
     </div>
   );
 }

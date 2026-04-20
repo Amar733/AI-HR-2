@@ -51,14 +51,13 @@ export default function JobList({
   return (
     <div className="job-list">
       {/* Filters */}
-      <div className="d-flex gap-3 mb-4">
-        <div className="flex-grow-1">
+      <div className="d-flex flex-column flex-md-row gap-3 mb-4">
         <div className="flex-grow-1 position-relative">
           <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style={{ zIndex: 10 }}></i>
           <Form.Control
             type="text"
-            className="ps-5 border-0 shadow-sm"
-            placeholder="Search jobs by title, position, or department..."
+            className="ps-5 border-0 shadow-sm w-100"
+            placeholder="Search jobs..."
             value={filters.search}
             onChange={(e) => handleFilterChange("search", e.target.value)}
             style={{ 
@@ -70,13 +69,11 @@ export default function JobList({
             }}
           />
         </div>
-        </div>
         <Form.Select
-          className="border-0 shadow-sm"
+          className="border-0 shadow-sm w-100 w-md-auto"
           value={filters.status}
           onChange={(e) => handleFilterChange("status", e.target.value)}
           style={{ 
-            width: "auto", 
             borderRadius: '12px', 
             padding: '10px 40px 10px 15px',
             fontSize: '14px',

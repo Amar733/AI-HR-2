@@ -76,28 +76,26 @@ function WalletPage() {
         <title>{`My Wallet - ${APP_NAME}`}</title>
       </Head>
 
-      <Container className="py-5">
-        <Row className="mb-4 align-items-center">
-          <Col>
-            <h2 className="mb-1 d-flex align-items-center">
-              <i className="bi bi-wallet2 me-3 text-primary"></i>
-              My Wallet
-            </h2>
-            <p className="text-muted">
+      <Container className="py-4">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+          <div>
+            <h2 className="mb-0 fw-bold">My Wallet</h2>
+            <p className="text-muted mb-0 small">
               Manage your interview minutes and view history.
             </p>
-          </Col>
-          <Col xs="auto">
-            <Link href="/wallet/topup">
+          </div>
+          <div className="d-flex gap-2 w-100 w-md-auto">
+            <Link href="/wallet/topup" className="w-100">
               {/* <Button
-                variant="primary"
-                className="d-flex align-items-center gap-2"
+                variant="dark"
+                className="w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                style={{ borderRadius: '10px', height: '44px' }}
               >
-                <i className="bi bi-plus-circle"></i> Buy Minutes
+                <i className="bi bi-patch-plus"></i> Buy Minutes
               </Button> */}
             </Link>
-          </Col>
-        </Row>
+          </div>
+        </div>
 
         <Row className="mb-5">
           {/* Balance Card */}
@@ -161,69 +159,76 @@ function WalletPage() {
             <h5 className="mb-0">Transaction History</h5>
           </Card.Header>
           <Card.Body className="p-0">
-            <Table hover responsive className="mb-0 align-middle">
-              <thead className="bg-light">
-                <tr>
-                  <th className="ps-4">Date</th>
-                  <th>Activity</th>
-                  <th>Type</th>
-                  <th className="text-end">Amount</th>
-                  <th className="text-end pe-4">Balance After</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* FIXED: Removed extra .data */}
-                {walletData.transactions &&
-                walletData.transactions.length > 0 ? (
-                  walletData.transactions.map((tx) => (
-                    <tr key={tx._id}>
-                      <td className="ps-4 text-muted small">
-                        {formatDateTime(tx.createdAt)}
-                      </td>
-                      <td>
-                        <span className="fw-medium text-dark">
-                          {tx.description || "System adjustment"}
-                        </span>
-                        {tx.referenceModel === "InterviewSession" && (
-                          <div className="small text-muted">
-                            Ref: Interview Session
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', borderRadius: '0 0 16px 16px' }}>
+              <Table hover className="mb-0 align-middle" style={{ minWidth: '800px', tableLayout: 'auto' }}>
+                <thead className="bg-light">
+                  <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <th className="ps-4 py-3" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b' }}>Date & Time</th>
+                    <th className="py-3" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b' }}>Activity Details</th>
+                    <th className="py-3" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b' }}>Category</th>
+                    <th className="text-end py-3" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b' }}>Amount</th>
+                    <th className="text-end pe-4 py-3" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b' }}>Balance After</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* FIXED: Removed extra .data */}
+                  {walletData.transactions &&
+                  walletData.transactions.length > 0 ? (
+                    walletData.transactions.map((tx) => (
+                      <tr key={tx._id} style={{ borderBottom: '1px solid #f8fafc' }}>
+                        <td className="ps-4 py-3 text-muted" style={{ fontSize: '12px' }}>
+                          <span className="d-block fw-semibold text-dark">{formatDate(tx.createdAt)}</span>
+                          <span className="opacity-75">{new Date(tx.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </td>
+                        <td className="py-3">
+                          <div className="fw-bold text-dark mb-0" style={{ fontSize: '13px' }}>
+                            {tx.description || "System adjustment"}
                           </div>
-                        )}
-                        {tx.referenceModel === "Payment" && (
-                          <div className="small text-muted">
-                            Ref: Stripe Payment
-                          </div>
-                        )}
-                        {tx.referenceModel === "AdminLog" && (
-                          <div className="small text-muted">
-                            Ref: Admin Action
-                          </div>
-                        )}
-                      </td>
-                      <td>{getTypeBadge(tx.type)}</td>
-                      <td
-                        className={`text-end fw-bold ${
-                          tx.amount > 0 ? "text-success" : "text-danger"
-                        }`}
-                      >
-                        {tx.amount > 0 ? "+" : ""}
-                        {tx.amount} m
-                      </td>
-                      <td className="text-end pe-4 text-muted">
-                        {tx.balanceAfter} m
+                          {tx.referenceModel === "InterviewSession" && (
+                            <div className="text-muted" style={{ fontSize: '10px' }}>
+                              <i className="bi bi-camera-video me-1"></i> AI Interview
+                            </div>
+                          )}
+                          {tx.referenceModel === "Payment" && (
+                            <div className="text-muted" style={{ fontSize: '10px' }}>
+                              <i className="bi bi-credit-card me-1"></i> Stripe Transaction
+                            </div>
+                          )}
+                          {tx.referenceModel === "AdminLog" && (
+                            <div className="text-muted" style={{ fontSize: '10px' }}>
+                              <i className="bi bi-gear-fill me-1"></i> Admin Adjustment
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-3">{getTypeBadge(tx.type)}</td>
+                        <td
+                          className={`text-end py-3 fw-bold ${
+                            tx.amount > 0 ? "text-success" : "text-dark"
+                          }`}
+                          style={{ fontSize: '14px' }}
+                        >
+                          {tx.amount > 0 ? "+" : "-"}
+                          {Math.abs(tx.amount)} <small className="fw-normal opacity-50">m</small>
+                        </td>
+                        <td className="text-end pe-4 py-3 text-muted fw-semibold" style={{ fontSize: '13px' }}>
+                          {tx.balanceAfter} <small className="fw-normal opacity-50">m</small>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center py-5 text-muted border-0">
+                        <div className="bg-light d-inline-flex p-4 rounded-circle mb-3">
+                          <i className="bi bi-receipt fs-1 text-muted"></i>
+                        </div>
+                        <h6 className="fw-bold text-dark">No transactions found</h6>
+                        <p className="small mb-0">Your financial activity will appear here.</p>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5" className="text-center py-5 text-muted">
-                      <i className="bi bi-receipt display-6 d-block mb-2"></i>
-                      No transactions found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                  )}
+                </tbody>
+              </Table>
+            </div>
           </Card.Body>
         </Card>
       </Container>

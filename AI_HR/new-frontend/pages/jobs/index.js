@@ -177,22 +177,25 @@ function JobsPage() {
 
       <Container fluid className="py-4">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h2 className="mb-1"> AI Interview Jobs</h2>
-            <p className="text-muted mb-0">
+        <Row className="mb-4 align-items-center">
+          <Col xs={12} md={true}>
+            <h2 className="mb-0 fw-bold">AI Interview Jobs</h2>
+            <p className="text-muted mb-0 small">
               Create and manage AI-powered interview jobs
             </p>
-          </div>
-          <Button
-            variant="primary"
-            className="gradient-btn"
-            onClick={() => setShowCreateModal(true)}
-          >
-            <i className="bi bi-plus-lg me-2"></i>
-            Create AI Job
-          </Button>
-        </div>
+          </Col>
+          <Col xs={12} md="auto" className="mt-3 mt-md-0">
+            <Button
+              variant="dark"
+              className="w-100 px-4 fw-bold text-nowrap d-flex align-items-center justify-content-center"
+              style={{ borderRadius: '10px', height: '44px' }}
+              onClick={() => setShowCreateModal(true)}
+            >
+              <i className="bi bi-plus-lg me-2"></i>
+              Create AI Job
+            </Button>
+          </Col>
+        </Row>
 
         {/* Statistics Cards */}
         <JobStatistics statistics={statistics} />
@@ -224,22 +227,24 @@ function JobsPage() {
           backdrop="static"
         >
           <Modal.Header closeButton>
-            <Modal.Title>
-              <i className="bi bi-robot me-2"></i>
-              Create AI Interview Job
+            <Modal.Title className="fw-bold d-flex align-items-center">
+              <div className="bg-dark text-white rounded-3 p-2 me-3 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
+                <i className="bi bi-robot fs-5"></i>
+              </div>
+              Create New AI Interview
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="p-0">
             <div className="p-4">
-              <Alert variant="info" className="mb-4">
-                <Alert.Heading><i className="bi bi-cpu me-2"></i> AI-Powered Interview Creation</Alert.Heading>
-                <p className="mb-0">
-                  Create comprehensive interview jobs with AI-generated
-                  questions, automated analysis, and intelligent candidate
-                  scoring. Our AI will help you assess technical skills,
-                  communication, and cultural fit.
+              <div className="p-4 bg-light rounded-4 border mb-4 shadow-sm" style={{ background: '#f8fafc' }}>
+                <div className="d-flex align-items-center mb-2">
+                  <i className="bi bi-cpu-fill text-dark fs-4 me-3"></i>
+                  <h6 className="mb-0 fw-bold">AI-Powered Interview Pipeline</h6>
+                </div>
+                <p className="text-muted small mb-0 ps-5 ms-1">
+                  Our system will automatically generate technical questions, handle candidate evaluation, and provide intelligent scoring based on your specific job requirements.
                 </p>
-              </Alert>
+              </div>
 
               <JobForm
                 onSubmit={handleCreateJob}

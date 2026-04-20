@@ -313,19 +313,23 @@ function Dashboard() {
 
       <Container fluid className="py-4">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h2 className="mb-1 d-flex align-items-center">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+          <div className="text-nowrap">
+            <h2 className="mb-1 d-flex align-items-center fw-bold">
               <i className="bi bi-grid-fill me-2 text-primary"></i>
               Dashboard Overview
             </h2>
-            <p className="text-muted mb-0">
-              Welcome back, <span className="text-dark fw-bold">{user?.name}</span>. Here is your current performance summary.
+            <p className="text-muted mb-0 small">
+              Welcome back, <span className="text-dark fw-bold">{user?.name}</span>.
             </p>
           </div>
-          <div className="d-flex gap-2">
-            <Dropdown>
-              <Dropdown.Toggle variant="outline-secondary" size="sm">
+          <div className="d-flex gap-2 w-100 w-md-auto justify-content-between justify-content-md-end align-items-center">
+            <Dropdown className="flex-grow-1 flex-md-grow-0">
+              <Dropdown.Toggle 
+                variant="outline-secondary" 
+                className="w-100 fw-semibold d-flex align-items-center justify-content-center"
+                style={{ borderRadius: '10px', height: '44px', padding: '0 20px', fontSize: '14px' }}
+              >
                 Last {timeRange} days
               </Dropdown.Toggle>
               <Dropdown.Menu>
@@ -340,8 +344,12 @@ function Dashboard() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Link href="/jobs">
-              <Button variant="primary" className="gradient-btn">
+            <Link href="/jobs" className="flex-grow-1 flex-md-grow-0">
+              <Button 
+                variant="dark" 
+                className="w-100 d-flex align-items-center justify-content-center shadow-sm fw-bold border-0" 
+                style={{ borderRadius: '10px', height: '44px', padding: '0 24px', fontSize: '14px' }}
+              >
                 <i className="bi bi-plus-lg me-2"></i>
                 New AI Job
               </Button>

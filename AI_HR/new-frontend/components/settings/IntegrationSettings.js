@@ -61,37 +61,39 @@ export default function IntegrationSettings() {
           {integrations.map((integration) => (
             <div
               key={integration.id}
-              className="integration-item d-flex align-items-center justify-content-between p-3 mb-3 border rounded-3 position-relative overflow-hidden"
-              style={{ transition: 'all 0.2s ease', cursor: 'not-allowed', opacity: 0.85 }}
+              className="integration-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between p-3 mb-3 border rounded-3 position-relative"
+              style={{ transition: 'all 0.2s ease', cursor: 'not-allowed', opacity: 0.85, background: '#fff' }}
             >
-              <div className="d-flex align-items-center flex-grow-1">
+              <div className="d-flex align-items-center w-100">
                 <div
-                  className="integration-icon d-flex align-items-center justify-content-center rounded-3 me-3"
+                  className="integration-icon d-flex align-items-center justify-content-center rounded-3 me-3 flex-shrink-0"
                   style={{
-                    width: '48px',
-                    height: '48px',
-                    background: `${integration.color}15`,
-                    color: integration.color
+                    width: '44px',
+                    height: '44px',
+                    background: `${integration.color}10`,
+                    color: integration.color,
+                    border: `1px solid ${integration.color}20`
                   }}
                 >
-                  <i className={`bi ${integration.icon} fs-4`}></i>
+                  <i className={`bi ${integration.icon} fs-5`}></i>
                 </div>
-                <div>
-                  <div className="d-flex align-items-center gap-2">
-                    <h6 className="mb-0 fw-semibold">{integration.name}</h6>
-                    <Badge bg="secondary" className="small">
-                      Coming Soon
+                <div className="flex-grow-1 min-width-0">
+                  <div className="d-flex align-items-center flex-wrap gap-2 mb-1">
+                    <h6 className="mb-0 fw-bold text-dark">{integration.name}</h6>
+                    <Badge bg="light" className="text-secondary border small fw-normal py-1 px-2" style={{ fontSize: '9px', letterSpacing: '0.02em' }}>
+                      COMING SOON
                     </Badge>
                   </div>
-                  <small className="text-muted d-block mt-1">
+                  <div className="text-muted small text-truncate-mobile" style={{ fontSize: '12px', lineHeight: '1.4' }}>
                     {integration.description}
-                  </small>
+                  </div>
                 </div>
               </div>
-              <Button variant="outline-secondary" size="sm" disabled className="px-3">
-                <i className="bi bi-clock me-2"></i>
-                Soon
-              </Button>
+              <div className="d-none d-md-block ms-4">
+                <div className="text-muted x-small fw-bold opacity-50 d-flex align-items-center">
+                  <i className="bi bi-lock-fill me-1"></i> LOCKED
+                </div>
+              </div>
             </div>
           ))}
         </div>
