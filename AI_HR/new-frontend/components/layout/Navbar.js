@@ -124,10 +124,10 @@ export default function Navbar({
                 aria-label="Account menu"
                 type="button"
               >
-                <div className="user-avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2">
-                  {initial}
-                </div>
-                <i className="bi bi-chevron-down" />
+                  <div className="user-avatar bg-dark text-white rounded-circle d-flex justify-content-center align-items-center me-2">
+                    {initial}
+                  </div>
+                  <i className="bi bi-chevron-down text-muted" style={{ fontSize: '12px' }} />
               </button>
 
               {menuOpen && (
@@ -200,23 +200,24 @@ export default function Navbar({
           ) : (
             // Desktop: keep normal bootstrap dropdown (uses Popper; fine on larger viewports)
             <Dropdown align="end" className="user-menu-dropdown">
-              <Dropdown.Toggle
+                <Dropdown.Toggle
                 variant="link"
-                className="user-dropdown d-flex align-items-center text-decoration-none"
+                className="user-dropdown d-flex align-items-center text-decoration-none border-0"
                 id="user-dropdown"
+                style={{ boxShadow: 'none' }}
               >
-                <div className="user-avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2">
+                <div className="user-avatar bg-dark text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm" style={{ width: '38px', height: '38px', fontWeight: '700' }}>
                   {initial}
                 </div>
-                <div className="d-none d-md-block text-start">
-                  <div className="user-name fw-semibold">
+                <div className="d-none d-md-block text-start me-2">
+                  <div className="user-name fw-bold" style={{ color: '#000000', fontSize: '14px', lineHeight: '1.2' }}>
                     {user?.name || "User"}
                   </div>
-                  <small className="text-muted">
+                  <small className="text-muted" style={{ fontSize: '11px' }}>
                     {user?.company || "Company"}
                   </small>
                 </div>
-                <i className="bi bi-chevron-down ms-2" />
+                <i className="bi bi-chevron-down text-muted" style={{ fontSize: '12px' }} />
               </Dropdown.Toggle>
 
               <Dropdown.Menu>

@@ -4,10 +4,10 @@ const nextConfig = {
   swcMinify: true,
   env: {
     NEXT_PUBLIC_API_URL:
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
+      process.env.NEXT_PUBLIC_API_URL || "https://api.99aihr.com/api",
     NEXT_PUBLIC_APP_NAME: "AI Interview",
     NEXT_PUBLIC_APP_VERSION: "1.0.0",
-    NEXT_PUBLIC_VIDEO_URL: "http://localhost:5000/",
+    NEXT_PUBLIC_VIDEO_URL: "https://api.99aihr.com/",
   },
 
   output: "export",
@@ -17,14 +17,12 @@ const nextConfig = {
     formats: ["image/webp", "image/avif"],
   },
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl || !apiUrl.startsWith("http")) {
-      throw new Error("NEXT_PUBLIC_API_URL is not defined correctly");
-    }
+    const apiTarget =
+      process.env.API_TARGET_URL || "https://api.99aihr.com/api";
     return [
       {
         source: "/api/:path*",
-        destination: `${apiUrl}/:path*`,
+        destination: `${apiTarget}/:path*`,
       },
     ];
   },

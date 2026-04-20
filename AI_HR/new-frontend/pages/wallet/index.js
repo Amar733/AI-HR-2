@@ -48,23 +48,15 @@ function WalletPage() {
   const getTypeBadge = (type) => {
     switch (type) {
       case "purchase":
-        return <Badge bg="success">Top-up</Badge>;
+        return <Badge className="bg-success-subtle text-success border-0 px-2 py-1 fw-bold" style={{ fontSize: '10px' }}>PURCHASE</Badge>;
       case "usage":
-        return <Badge bg="secondary">Interview</Badge>;
+        return <Badge className="bg-info-subtle text-info border-0 px-2 py-1 fw-bold" style={{ fontSize: '10px' }}>INTERVIEW</Badge>;
       case "admin_adjustment":
-        return <Badge bg="info">Admin Adj.</Badge>;
+        return <Badge className="bg-secondary-subtle text-secondary border-0 px-2 py-1 fw-bold" style={{ fontSize: '10px' }}>ADJUSTMENT</Badge>;
       case "bonus":
-        return (
-          <Badge bg="warning" text="dark">
-            Bonus
-          </Badge>
-        );
+        return <Badge className="bg-warning-subtle text-warning border-0 px-2 py-1 fw-bold" style={{ fontSize: '10px' }}>BONUS</Badge>;
       default:
-        return (
-          <Badge bg="light" text="dark">
-            {type}
-          </Badge>
-        );
+        return <Badge className="bg-light text-muted border-0 px-2 py-1 fw-bold" style={{ fontSize: '10px' }}>{type.toUpperCase()}</Badge>;
     }
   };
 
@@ -87,7 +79,10 @@ function WalletPage() {
       <Container className="py-5">
         <Row className="mb-4 align-items-center">
           <Col>
-            <h2 className="mb-1">💳 My Wallet</h2>
+            <h2 className="mb-1 d-flex align-items-center">
+              <i className="bi bi-wallet2 me-3 text-primary"></i>
+              My Wallet
+            </h2>
             <p className="text-muted">
               Manage your interview minutes and view history.
             </p>
@@ -108,25 +103,29 @@ function WalletPage() {
           {/* Balance Card */}
           <Col md={6} lg={4} className="mb-3">
             <Card
-              className="border-0 shadow-sm text-white h-100"
+              className="border-0 shadow-sm text-white h-100 position-relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%)",
+                background: "#000000",
+                borderRadius: '16px',
+                minHeight: '200px'
               }}
             >
-              <Card.Body className="d-flex flex-column justify-content-between p-4">
+              <div className="position-absolute bottom-0 end-0 p-4 opacity-10" style={{ marginBottom: '-20px', marginRight: '-10px' }}>
+                <i className="bi bi-shield-lock-fill" style={{ fontSize: '100px' }}></i>
+              </div>
+              <Card.Body className="d-flex flex-column justify-content-between p-4 position-relative" style={{ zIndex: 1 }}>
                 <div>
-                  <h6 className="opacity-75 mb-1">Available Balance</h6>
-                  <h1 className="display-4 fw-bold mb-0">
-                    {/* FIXED: Removed extra .data */}
+                  <h6 className="text-white-50 mb-1 fw-bold text-uppercase" style={{ fontSize: '10px', letterSpacing: '0.1em' }}>Available Balance</h6>
+                  <h1 className="fw-bold mb-0" style={{ fontSize: walletData.minutesBalance?.toString().length > 7 ? '2.2rem' : '2.8rem' }}>
                     {walletData.minutesBalance}{" "}
-                    <span className="fs-5 fw-normal opacity-75">mins</span>
+                    <span className="fs-6 fw-normal opacity-50">mins</span>
                   </h1>
                 </div>
-                <div className="mt-4 pt-4 border-top border-white border-opacity-25">
+                <div className="mt-auto pt-4 border-top border-white border-opacity-10">
                   <div className="d-flex justify-content-between align-items-center">
-                    <small className="opacity-75">Account Status</small>
-                    <Badge bg="light" text="primary" className="px-3">
-                      Active
+                    <small className="text-white-50 fw-bold" style={{ fontSize: '10px' }}>ACCOUNT STATUS</small>
+                    <Badge className="bg-success text-white px-2 py-1 border-0" style={{ fontSize: '10px' }}>
+                      ACTIVE
                     </Badge>
                   </div>
                 </div>
@@ -136,18 +135,17 @@ function WalletPage() {
 
           {/* Usage Stats Card */}
           <Col md={6} lg={4} className="mb-3">
-            <Card className="border-0 shadow-sm h-100">
+            <Card className="border-0 shadow-sm h-100" style={{ borderRadius: '16px' }}>
               <Card.Body className="p-4">
                 <div className="d-flex align-items-center mb-3">
-                  <div className="bg-light text-primary rounded p-2 me-3">
-                    <i className="bi bi-clock-history fs-4"></i>
+                  <div className="bg-light text-dark rounded-circle d-flex align-items-center justify-content-center me-3" style={{ width: '48px', height: '48px' }}>
+                    <i className="bi bi-clock-history fs-5"></i>
                   </div>
-                  <h5 className="mb-0">Lifetime Usage</h5>
+                  <h5 className="mb-0 fw-bold">Lifetime Usage</h5>
                 </div>
-                <h3 className="mb-1">
-                  {/* FIXED: Removed extra .data */}
+                <h3 className="mb-1 fw-bold">
                   {walletData.totalUsed}{" "}
-                  <small className="text-muted fs-6">mins consumed</small>
+                  <small className="text-muted fs-6 fw-normal">mins consumed</small>
                 </h3>
                 <p className="text-muted small mb-0">
                   Total duration of all interviews conducted since registration.

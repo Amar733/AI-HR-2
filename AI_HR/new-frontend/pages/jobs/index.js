@@ -232,7 +232,7 @@ function JobsPage() {
           <Modal.Body className="p-0">
             <div className="p-4">
               <Alert variant="info" className="mb-4">
-                <Alert.Heading>🧠 AI-Powered Interview Creation</Alert.Heading>
+                <Alert.Heading><i className="bi bi-cpu me-2"></i> AI-Powered Interview Creation</Alert.Heading>
                 <p className="mb-0">
                   Create comprehensive interview jobs with AI-generated
                   questions, automated analysis, and intelligent candidate

@@ -53,20 +53,19 @@ export default function ProfileSettings({ settings, onUpdate }) {
                       <i className="bi bi-person me-2 text-muted"></i>
                       Full Name
                     </Form.Label>
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        value={values.name}
-                        onChange={handleChange}
-                        isInvalid={touched.name && errors.name}
-                        placeholder="Enter your full name"
-                        className="py-2"
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.name}
-                      </Form.Control.Feedback>
-                    </InputGroup>
+                    <Form.Control
+                      type="text"
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      isInvalid={touched.name && errors.name}
+                      placeholder="Enter your full name"
+                      className="py-2"
+                      style={{ borderRadius: '10px' }}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.name}
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -75,21 +74,22 @@ export default function ProfileSettings({ settings, onUpdate }) {
                       <i className="bi bi-envelope me-2 text-muted"></i>
                       Email Address
                     </Form.Label>
-                    <InputGroup>
+                    <div className="position-relative">
                       <Form.Control
                         type="email"
                         name="email"
                         value={values.email}
                         disabled
-                        className="bg-light py-2"
+                        className="bg-light py-2 pe-5"
+                        style={{ borderRadius: '10px', border: '1px solid #dee2e6' }}
                       />
-                      <InputGroup.Text className="bg-light">
-                        <i className="bi bi-lock-fill text-muted"></i>
-                      </InputGroup.Text>
-                    </InputGroup>
-                    <Form.Text className="text-muted d-flex align-items-center mt-2">
-                      <i className="bi bi-info-circle me-1"></i>
-                      Email cannot be changed. Contact support if needed.
+                      <div className="position-absolute top-50 end-0 translate-middle-y me-3">
+                        <i className="bi bi-lock-fill text-muted small"></i>
+                      </div>
+                    </div>
+                    <Form.Text className="d-flex align-items-center mt-2" style={{ fontSize: '11px', color: '#d97706', fontWeight: '500' }}>
+                      <i className="bi bi-exclamation-triangle me-1 opacity-75"></i>
+                      Note: Email cannot be changed. Contact support if needed.
                     </Form.Text>
                   </Form.Group>
                 </Col>
@@ -110,6 +110,7 @@ export default function ProfileSettings({ settings, onUpdate }) {
                       isInvalid={touched.company && errors.company}
                       placeholder="Enter your company name"
                       className="py-2"
+                      style={{ borderRadius: '10px' }}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.company}
@@ -130,6 +131,7 @@ export default function ProfileSettings({ settings, onUpdate }) {
                       isInvalid={touched.phone && errors.phone}
                       placeholder="Enter your phone number"
                       className="py-2"
+                      style={{ borderRadius: '10px' }}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.phone}
@@ -150,9 +152,10 @@ export default function ProfileSettings({ settings, onUpdate }) {
                 </Button>
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="dark"
                   disabled={isSubmitting}
-                  className="gradient-btn px-4"
+                  className="px-4 fw-bold"
+                  style={{ borderRadius: '8px' }}
                 >
                   {isSubmitting ? (
                     <>
@@ -161,7 +164,7 @@ export default function ProfileSettings({ settings, onUpdate }) {
                     </>
                   ) : (
                     <>
-                      <i className="bi bi-check-circle me-2"></i>
+                      <i className="bi bi-check-lg me-2"></i>
                       Save Changes
                     </>
                   )}

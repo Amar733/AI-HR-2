@@ -152,13 +152,13 @@ function Settings() {
           width: 56px;
           height: 56px;
           border-radius: 14px;
-          background: linear-gradient(135deg, #0f4c81 0%, #1fa2a6 100%);
+          background: #000000;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
           font-size: 1.5rem;
-          box-shadow: 0 4px 12px rgba(15, 76, 129, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         :global(.settings-nav-pills .nav-link) {
@@ -168,13 +168,14 @@ function Settings() {
         }
 
         :global(.settings-nav-pills .nav-link:hover:not(.active)) {
-          background: rgba(15, 76, 129, 0.05);
+          background: #f1f5f9;
           transform: translateX(4px);
         }
 
         :global(.settings-nav-pills .nav-link.active) {
-          background: linear-gradient(135deg, #0f4c81 0%, #1fa2a6 100%);
-          box-shadow: 0 4px 12px rgba(15, 76, 129, 0.25);
+          background: #000000 !important;
+          color: white !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         :global(.settings-content-wrapper) {

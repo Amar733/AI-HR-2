@@ -202,11 +202,19 @@ function Dashboard() {
             jobs.filter((job) => job.difficulty === "expert").length,
           ],
           backgroundColor: [
-            "rgba(31, 162, 166, 0.8)",
-            "rgba(59, 130, 246, 0.8)",
-            "rgba(245, 158, 11, 0.8)",
-            "rgba(239, 68, 68, 0.8)",
+            "#89f5e7", // Easy
+            "#0c9488", // Medium
+            "#515f74", // Hard
+            "#000000", // Expert
           ],
+          hoverBackgroundColor: [
+            "#aefaf1",
+            "#0ea396",
+            "#64748b",
+            "#1a1a1a",
+          ],
+          borderWidth: 0,
+          spacing: 2,
         },
       ],
     };
@@ -224,9 +232,9 @@ function Dashboard() {
         {
           label: "Total Interviews",
           data: Object.values(departmentStats).slice(0, 5),
-          backgroundColor: "rgba(31, 162, 166, 0.6)",
-          borderColor: "rgba(31, 162, 166, 1)",
-          borderWidth: 1,
+          backgroundColor: "#0c9488",
+          borderRadius: 8,
+          maxBarThickness: 50,
         },
       ],
     };
@@ -307,10 +315,12 @@ function Dashboard() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h2 className="mb-1">🤖 AI Interview Dashboard</h2>
+            <h2 className="mb-1 d-flex align-items-center">
+              <i className="bi bi-grid-fill me-2 text-primary"></i>
+              Dashboard Overview
+            </h2>
             <p className="text-muted mb-0">
-              Welcome back, <strong>{user?.name}</strong>! Here's your interview
-              analytics
+              Welcome back, <span className="text-dark fw-bold">{user?.name}</span>. Here is your current performance summary.
             </p>
           </div>
           <div className="d-flex gap-2">
@@ -454,7 +464,10 @@ function Dashboard() {
                 <Card className="border-0 shadow-sm h-100">
                   <Card.Header className="bg-white border-0">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h6 className="mb-0">📈 Interview Completion Trend</h6>
+                      <h6 className="mb-0 d-flex align-items-center">
+                        <i className="bi bi-graph-up-arrow me-2 text-primary"></i>
+                        Interview Completion Trend
+                      </h6>
                       <Badge bg="success-subtle" text="success">
                         Last 7 days
                       </Badge>
@@ -467,15 +480,13 @@ function Dashboard() {
                           ...analytics.completionTrend,
                           datasets: analytics.completionTrend.datasets.map(dataset => ({
                             ...dataset,
-                            backgroundColor: "#1a3a52",
-                            borderColor: "#0f2438",
-                            borderWidth: 2,
-                            borderRadius: 4,
+                            backgroundColor: "#000000",
+                            borderColor: "#000000",
+                            borderWidth: 0,
+                            borderRadius: 6,
                             barThickness: "flex",
-                            maxBarThickness: 50,
-                            hoverBackgroundColor: "#2d5a7b",
-                            hoverBorderColor: "#1a3a52",
-                            hoverBorderWidth: 3,
+                            maxBarThickness: 40,
+                            hoverBackgroundColor: "#333333",
                           }))
                         }}
                         options={{
@@ -512,55 +523,50 @@ function Dashboard() {
                 <Card className="border-0 shadow-sm h-100">
                   <Card.Header className="bg-white border-0">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h6 className="mb-0">🎯 Job Difficulty</h6>
-                      <Badge bg="primary-subtle" text="primary">Distribution</Badge>
+                      <h6 className="mb-0 d-flex align-items-center fw-bold">
+                        <i className="bi bi-pie-chart me-2 text-primary"></i>
+                        Job Difficulty
+                      </h6>
+                      <Badge className="bg-light text-muted border fw-normal" style={{ fontSize: '10px' }}>DISTRIBUTION</Badge>
                     </div>
                   </Card.Header>
                   <Card.Body>
-                    <div style={{ height: "250px" }}>
+                    <div className="position-relative" style={{ height: "250px" }}>
                       <Doughnut
                         data={analytics.difficultyDistribution}
                         options={{
                           responsive: true,
                           maintainAspectRatio: false,
-                          cutout: '65%',
+                          cutout: '75%',
                           plugins: {
                             legend: {
                               position: "bottom",
                               labels: { 
-                                fontSize: 12,
-                                padding: 15,
+                                padding: 20,
                                 usePointStyle: true,
-                                font: { size: 11, weight: '500' }
+                                pointStyle: 'circle',
+                                font: { size: 12, weight: '600', family: 'Inter' },
+                                color: '#64748b'
                               },
                             },
                             tooltip: {
-                              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                              backgroundColor: '#000000',
                               padding: 12,
                               titleFont: { size: 13, weight: 'bold' },
                               bodyFont: { size: 12 },
-                              callbacks: {
-                                label: function(context) {
-                                  const label = context.label || '';
-                                  const value = context.parsed || 0;
-                                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                  const percentage = ((value / total) * 100).toFixed(1);
-                                  return `${label}: ${value} (${percentage}%)`;
-                                }
-                              }
+                              cornerRadius: 8,
+                              displayColors: false,
                             },
                             datalabels: {
-                              color: '#fff',
-                              font: { size: 14, weight: 'bold' },
-                              formatter: (value, context) => {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return percentage > 5 ? `${percentage}%` : '';
-                              }
+                              display: false // Hide datalabels for cleaner doughnut
                             }
                           },
                         }}
                       />
+                      <div className="position-absolute top-50 start-50 translate-middle text-center" style={{ marginTop: '-20px' }}>
+                        <div className="fw-bold h4 mb-0" style={{ color: '#0f172a' }}>{dashboardData.stats.totalJobs || 0}</div>
+                        <div className="text-muted fw-bold" style={{ fontSize: '9px', letterSpacing: '0.05em' }}>TOTAL JOBS</div>
+                      </div>
                     </div>
                   </Card.Body>
                 </Card>
@@ -570,7 +576,10 @@ function Dashboard() {
               <Col lg={12} className="mb-4">
                 <Card className="border-0 shadow-sm">
                   <Card.Header className="bg-white border-0">
-                    <h6 className="mb-0">🏢 Department Interview Volume</h6>
+                    <h6 className="mb-0 d-flex align-items-center">
+                      <i className="bi bi-building me-2 text-primary"></i>
+                      Department Interview Volume
+                    </h6>
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "200px" }}>
@@ -581,14 +590,32 @@ function Dashboard() {
                           maintainAspectRatio: false,
                           plugins: {
                             legend: { display: false },
+                            datalabels: { display: false },
+                            tooltip: {
+                              backgroundColor: '#000000',
+                              padding: 12,
+                              cornerRadius: 8,
+                            }
                           },
                           scales: {
                             y: {
                               beginAtZero: true,
-                              grid: { color: "#f1f3f4" },
+                              border: { display: false },
+                              grid: { 
+                                color: "#f1f3f4",
+                                drawTicks: false 
+                              },
+                              ticks: {
+                                color: '#94a3b8',
+                                font: { size: 11 }
+                              }
                             },
                             x: {
                               grid: { display: false },
+                              ticks: {
+                                color: '#64748b',
+                                font: { size: 12, weight: '600' }
+                              }
                             },
                           },
                         }}
@@ -630,10 +657,13 @@ function Dashboard() {
             <Card className="border-0 shadow-sm mb-4">
               <Card.Header className="bg-white border-0">
                 <div className="d-flex justify-content-between align-items-center">
-                  <h6 className="mb-0">🤖 Recent AI Jobs</h6>
+                  <h6 className="mb-0 d-flex align-items-center">
+                    <i className="bi bi-robot me-2 text-primary"></i>
+                    Recent AI Jobs
+                  </h6>
                   <Link href="/jobs">
-                    <Button variant="link" size="sm" className="p-0">
-                      View All
+                    <Button variant="link" size="sm" className="view-all-link">
+                      View All <i className="bi bi-chevron-right ms-1"></i>
                     </Button>
                   </Link>
                 </div>
@@ -703,54 +733,50 @@ function Dashboard() {
           <Col lg={6} className="mb-4">
             <Card className="border-0 shadow-sm">
               <Card.Header className="bg-white border-0">
-                <h6 className="mb-0">📋 Recent Activity</h6>
+                <h6 className="mb-0 d-flex align-items-center">
+                  <i className="bi bi-list-check me-2 text-primary"></i>
+                  Recent Activity
+                </h6>
               </Card.Header>
               <Card.Body
                 className="p-0"
                 style={{ maxHeight: "400px", overflowY: "auto" }}
               >
                 {activities.length > 0 ? (
-                  <div className="activity-feed">
-                    {activities.map((activity) => (
+                  <div className="activity-feed-container px-3 pt-3">
+                    {activities.map((activity, index) => (
                       <div
                         key={activity.id}
-                        className="activity-item p-3 border-bottom"
+                        className={`activity-item-new ${index === activities.length - 1 ? 'last' : ''}`}
                       >
-                        <div className="d-flex align-items-start">
-                          <div
-                            className={`activity-icon bg-${activity.color}-subtle text-${activity.color} rounded-circle p-2 me-3`}
-                          >
-                            <i className={`${activity.icon} small`}></i>
+                        <div className="activity-line"></div>
+                        <div className="activity-dot shadow-sm" style={{ backgroundColor: `var(--bs-${activity.color})` }}>
+                          <i className={`${activity.icon} text-white`}></i>
+                        </div>
+                        <div className="activity-content-new pb-4 ps-4">
+                          <div className="d-flex justify-content-between align-items-start mb-1">
+                            <h6 className="activity-title-new mb-0">{activity.title}</h6>
+                            <span className="activity-time-new">{formatDateTime(activity.time)}</span>
                           </div>
-                          <div className="flex-grow-1">
-                            <div className="fw-semibold small">
-                              {activity.title}
-                            </div>
-                            <p className="mb-1 text-muted small">
-                              {activity.description}
-                            </p>
-                            <div className="d-flex align-items-center gap-2">
-                              <small className="text-muted">
-                                {formatDateTime(activity.time)}
-                              </small>
-                              {activity.metadata?.score && (
-                                <Badge bg="success" size="sm">
-                                  Score: {activity.metadata.score.toFixed(1)}/10
-                                </Badge>
-                              )}
-                              {activity.metadata?.recommendation && (
-                                <Badge
-                                  bg={
-                                    activity.metadata.recommendation === "hire"
-                                      ? "success"
-                                      : "secondary"
-                                  }
-                                  size="sm"
-                                >
-                                  {activity.metadata.recommendation}
-                                </Badge>
-                              )}
-                            </div>
+                          <p className="activity-desc-new mb-2 text-muted">{activity.description}</p>
+                          <div className="d-flex align-items-center gap-2">
+                            {activity.metadata?.score && (
+                              <Badge className="bg-light text-dark border fw-bold px-2 py-1">
+                                Score: {activity.metadata.score.toFixed(1)}/10
+                              </Badge>
+                            )}
+                            {activity.metadata?.recommendation && (
+                              <Badge
+                                bg={
+                                  activity.metadata.recommendation === "hire"
+                                    ? "success"
+                                    : "secondary"
+                                }
+                                className="px-2 py-1 text-capitalize"
+                              >
+                                {activity.metadata.recommendation.replace('_', ' ')}
+                              </Badge>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -771,10 +797,13 @@ function Dashboard() {
             <Card className="border-0 shadow-sm">
               <Card.Header className="bg-white border-0">
                 <div className="d-flex justify-content-between align-items-center">
-                  <h6 className="mb-0">🎥 Recent Interview Sessions</h6>
+                  <h6 className="mb-0 d-flex align-items-center">
+                    <i className="bi bi-camera-video-fill me-2 text-primary"></i>
+                    Recent Sessions
+                  </h6>
                   <Link href="/interviews">
-                    <Button variant="link" size="sm" className="p-0">
-                      View All
+                    <Button variant="link" size="sm" className="view-all-link">
+                      View All <i className="bi bi-chevron-right ms-1"></i>
                     </Button>
                   </Link>
                 </div>
@@ -784,54 +813,50 @@ function Dashboard() {
                 style={{ maxHeight: "400px", overflowY: "auto" }}
               >
                 {recentSessions.length > 0 ? (
-                  <div className="list-group list-group-flush">
+                  <div className="sessions-list">
                     {recentSessions.map((session) => (
                       <div
                         key={session._id}
-                        className="list-group-item border-0 py-3"
+                        className="session-row p-3 border-bottom d-flex align-items-center hover-bg"
                       >
-                        <div className="d-flex justify-content-between align-items-start">
-                          <div className="flex-grow-1">
-                            <h6 className="mb-1">
-                              {session.candidateInfo?.name || "Anonymous"}
-                            </h6>
-                            <p className="mb-1 text-muted small">
-                              {session.jobTitle}
-                            </p>
-                            <div className="d-flex gap-2 align-items-center">
+                        <div className="session-avatar me-3 shadow-sm">
+                          {session.candidateInfo?.name?.charAt(0).toUpperCase() || "A"}
+                        </div>
+                        <div className="flex-grow-1">
+                          <h6 className="session-name mb-0">{session.candidateInfo?.name || "Anonymous"}</h6>
+                          <div className="session-job-info d-flex align-items-center gap-2">
+                             <span className="text-muted small">{session.jobTitle}</span>
+                             <span className="dot-separator"></span>
+                             <span className="text-muted small">{formatDate(session.completedAt || session.createdAt)}</span>
+                          </div>
+                        </div>
+                        <div className="d-flex flex-column align-items-end gap-2">
+                           <div className="d-flex align-items-center gap-2">
                               <Badge
                                 bg={
                                   session.status === "completed"
                                     ? "success"
                                     : session.status === "in_progress"
                                     ? "primary"
-                                    : session.status === "started"
-                                    ? "info"
                                     : "secondary"
                                 }
-                                size="sm"
+                                className="session-status-badge"
                               >
                                 {session.status?.replace("_", " ")}
                               </Badge>
                               {session.totalDuration && (
-                                <small className="text-muted">
-                                  {Math.round(session.totalDuration / 60)} min
-                                </small>
+                                <Badge bg="light" text="dark" className="border fw-normal">
+                                  <i className="bi bi-clock me-1"></i>
+                                  {Math.round(session.totalDuration / 60)}m
+                                </Badge>
                               )}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {session.analysis?.overallScore && (
-                              <div className="badge bg-warning mb-1">
-                                {session.analysis.overallScore.toFixed(1)}/10
+                           </div>
+                           {session.analysis?.overallScore && (
+                              <div className="score-pill">
+                                <span className="score-label">Score</span>
+                                <span className="score-value">{session.analysis.overallScore.toFixed(1)}</span>
                               </div>
-                            )}
-                            <div className="small text-muted">
-                              {formatDate(
-                                session.completedAt || session.createdAt
-                              )}
-                            </div>
-                          </div>
+                           )}
                         </div>
                       </div>
                     ))}
@@ -883,16 +908,16 @@ function Dashboard() {
         }
 
         .stat-card-primary .stat-card-bg {
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          background: linear-gradient(135deg, #000000, #333333);
         }
         .stat-card-success .stat-card-bg {
-          background: linear-gradient(135deg, #1fa2a6, #0d7377);
+          background: linear-gradient(135deg, #0c9488, #1fa2a6);
         }
         .stat-card-warning .stat-card-bg {
           background: linear-gradient(135deg, #f59e0b, #d97706);
         }
         .stat-card-info .stat-card-bg {
-          background: linear-gradient(135deg, #38bdf8, #0284c7);
+          background: linear-gradient(135deg, #515f74, #334155);
         }
 
         .stat-card:hover .stat-card-bg {
@@ -1034,23 +1059,22 @@ function Dashboard() {
           justify-content: center;
         }
 
-        .stat-value {
-          font-weight: 700;
-          background: linear-gradient(135deg, #1fa2a6 0%, #0f4c81 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
         .gradient-btn {
-          background: linear-gradient(135deg, #1fa2a6 0%, #0f4c81 100%);
+          background: #000000;
+          color: #ffffff;
           border: none;
-          font-weight: 500;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          border-radius: 8px;
+          padding: 10px 20px;
+          transition: all 0.3s ease;
         }
 
         .gradient-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(31, 162, 166, 0.3);
+          background: #1a1a1a;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          color: #ffffff;
         }
 
         .activity-item:hover {
@@ -1082,17 +1106,173 @@ function Dashboard() {
           background-color: rgba(56, 189, 248, 0.1) !important;
         }
 
+        .activity-feed-container {
+          position: relative;
+        }
+
+        .activity-item-new {
+          position: relative;
+          padding-left: 20px;
+        }
+
+        .activity-line {
+          position: absolute;
+          left: 17px;
+          top: 36px;
+          bottom: 0;
+          width: 2px;
+          background-color: #e2e8f0;
+          z-index: 1;
+        }
+
+        .activity-item-new.last .activity-line {
+          display: none;
+        }
+
+        .activity-dot {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2;
+        }
+
+        .activity-dot i {
+          font-size: 14px;
+        }
+
+        .activity-title-new {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #0f172a;
+        }
+
+        .activity-time-new {
+          font-size: 0.75rem;
+          color: #94a3b8;
+          font-weight: 500;
+        }
+
+        .activity-desc-new {
+          font-size: 0.85rem;
+          line-height: 1.4;
+        }
+
+        .session-row {
+          transition: background-color 0.2s ease;
+        }
+
+        .session-row:hover {
+          background-color: #f8fafc;
+        }
+
+        .session-avatar {
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
+          background: #f1f5f9;
+          color: #0f172a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 800;
+          font-size: 1.1rem;
+        }
+
+        .session-name {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #0f172a;
+        }
+
+        .dot-separator {
+          width: 4px;
+          height: 4px;
+          background-color: #cbd5e1;
+          border-radius: 50%;
+        }
+
+        .session-status-badge {
+          text-transform: capitalize;
+          padding: 5px 10px;
+          font-weight: 600;
+          font-size: 11px;
+          letter-spacing: 0.02em;
+        }
+
+        .score-pill {
+          display: flex;
+          align-items: center;
+          background: #000000;
+          border-radius: 20px;
+          padding: 2px 2px 2px 10px;
+          color: white;
+        }
+
+        .score-label {
+          font-size: 10px;
+          text-transform: uppercase;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          margin-right: 8px;
+          opacity: 0.8;
+        }
+
+        .score-value {
+          background: #ffffff;
+          color: #000000;
+          width: 32px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 15px;
+          font-weight: 800;
+          font-size: 12px;
+        }
+
+        .view-all-link {
+          color: #64748b;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 13px;
+          padding: 4px 8px;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+        }
+
+        .view-all-link:hover {
+          color: #000000;
+          background-color: #f1f5f9;
+          text-decoration: none;
+        }
+
+        .view-all-link i {
+          transition: transform 0.2s ease;
+        }
+
+        .view-all-link:hover i {
+          transform: translateX(3px);
+        }
+
         .text-primary {
-          color: #3b82f6 !important;
+          color: #000000 !important;
         }
         .text-success {
-          color: #1fa2a6 !important;
+          color: #0c9488 !important;
         }
         .text-warning {
           color: #f59e0b !important;
         }
         .text-info {
-          color: #38bdf8 !important;
+          color: #515f74 !important;
         }
       `}</style>
     </Layout>

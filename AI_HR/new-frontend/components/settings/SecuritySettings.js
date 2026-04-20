@@ -46,13 +46,13 @@ export default function SecuritySettings() {
     <Card className="border-0 shadow-sm">
       <Card.Header className="bg-white border-bottom py-3">
         <div className="d-flex align-items-center">
-          <i className="bi bi-shield-check text-success fs-4 me-2"></i>
-          <h5 className="mb-0 fw-semibold">Change Password</h5>
+          <i className="bi bi-shield-lock text-dark fs-4 me-2"></i>
+          <h5 className="mb-0 fw-bold">Change Password</h5>
         </div>
         <p className="text-muted small mb-0 mt-1">Keep your account secure with a strong password</p>
       </Card.Header>
       <Card.Body className="p-4">
-        <Alert variant="info" className="d-flex align-items-start border-0" style={{ background: 'rgba(31, 162, 166, 0.1)' }}>
+        <Alert variant="light" className="d-flex align-items-start border shadow-sm mb-4" style={{ background: '#f8fafc', borderRadius: '12px' }}>
           <i className="bi bi-info-circle-fill me-2 mt-1"></i>
           <div>
             <strong>Password Requirements:</strong>
@@ -165,9 +165,10 @@ export default function SecuritySettings() {
               <div className="d-flex gap-2 pt-3 border-top">
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="dark"
                   disabled={isSubmitting}
-                  className="gradient-btn px-4"
+                  className="px-4 fw-bold"
+                  style={{ borderRadius: '8px' }}
                 >
                   {isSubmitting ? (
                     <>
@@ -176,7 +177,7 @@ export default function SecuritySettings() {
                     </>
                   ) : (
                     <>
-                      <i className="bi bi-shield-check me-2"></i>
+                      <i className="bi bi-shield-lock me-2"></i>
                       Change Password
                     </>
                   )}

@@ -152,29 +152,32 @@ function AdminDashboard() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h2 className="mb-1">🛡️ Admin Dashboard</h2>
+            <h2 className="mb-1 d-flex align-items-center fw-bold text-dark">
+              <i className="bi bi-shield-check me-3"></i>
+              Admin Control Center
+            </h2>
+            <p className="text-muted small">Manage users and platform-wide resources</p>
           </div>
         </div>
 
         {/* User Management Table */}
-        <Card className="border-0 shadow-sm">
-          <Card.Header className="bg-white border-0 py-3">
+        <Card className="border-0 shadow-sm overflow-hidden" style={{ borderRadius: '16px' }}>
+          <Card.Header className="bg-white border-0 py-4">
             <Row className="align-items-center">
               <Col>
-                <h5 className="mb-0">User Management</h5>
+                <h5 className="mb-0 fw-bold">User Management</h5>
               </Col>
-              <Col md={4}>
-                <InputGroup>
-                  <InputGroup.Text className="bg-white border-end-0">
-                    <i className="bi bi-search text-muted"></i>
-                  </InputGroup.Text>
+              <Col md={5}>
+                <div className="position-relative">
+                  <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style={{ zIndex: 10 }}></i>
                   <Form.Control
                     placeholder="Search name, email, company..."
-                    className="border-start-0 ps-0"
+                    className="ps-5 border-0 bg-light"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ borderRadius: '12px', padding: '10px 0 10px 48px' }}
                   />
-                </InputGroup>
+                </div>
               </Col>
             </Row>
           </Card.Header>
@@ -197,43 +200,41 @@ function AdminDashboard() {
                       <td className="ps-4">
                         <div className="d-flex align-items-center">
                           <div
-                            className="avatar-initial rounded-circle bg-light text-primary fw-bold me-3 d-flex align-items-center justify-content-center"
-                            style={{ width: "40px", height: "40px" }}
+                            className="avatar-initial rounded-circle bg-dark text-white fw-bold me-3 d-flex align-items-center justify-content-center"
+                            style={{ width: "40px", height: "40px", fontSize: '14px' }}
                           >
                             {user.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <div className="fw-semibold text-dark">
+                            <div className="fw-bold text-dark">
                               {user.name}
                             </div>
                             <div className="small text-muted">{user.email}</div>
                           </div>
                         </div>
                       </td>
-                      <td>{user.company || "-"}</td>
+                      <td>
+                        <div className="d-flex align-items-center gap-2">
+                           <i className="bi bi-building text-muted small"></i>
+                           <span className="small fw-semibold">{user.company || "Personal Account"}</span>
+                        </div>
+                      </td>
                       <td>
                         <Badge
-                          bg={
+                          className={`px-3 py-2 border-0 fw-bold ${
                             user.wallet?.minutesBalance < 10
-                              ? "danger-subtle"
-                              : "success-subtle"
-                          }
-                          text={
-                            user.wallet?.minutesBalance < 10
-                              ? "danger"
-                              : "success"
-                          }
-                          className="px-3 py-2 rounded-pill"
+                              ? "bg-danger-subtle text-danger"
+                              : "bg-success-subtle text-success"
+                          }`}
+                          style={{ borderRadius: '8px', fontSize: '11px' }}
                         >
-                          <i className="bi bi-stopwatch me-1"></i>
-                          {user.wallet?.minutesBalance || 0} mins
+                          {user.wallet?.minutesBalance || 0} MINS
                         </Badge>
                       </td>
                       <td>
                         <Badge
-                          bg="secondary-subtle"
-                          text="secondary"
-                          className="text-capitalize"
+                          className="bg-light text-dark border px-2 py-1 fw-bold text-uppercase"
+                          style={{ fontSize: '10px' }}
                         >
                           {user.role}
                         </Badge>
@@ -243,11 +244,19 @@ function AdminDashboard() {
                       </td>
                       <td className="text-end pe-4">
                         <Button
-                          variant="outline-primary"
+                          variant="light"
                           size="sm"
+                          className="px-3 py-1 border-0 fw-bold shadow-sm manage-btn"
+                          style={{ 
+                            fontSize: '11px', 
+                            borderRadius: '8px', 
+                            background: '#f1f5f9',
+                            color: '#475569' 
+                          }}
                           onClick={() => handleOpenModal(user)}
                         >
-                          Manage Minutes
+                          <i className="bi bi-gear-fill me-2 opacity-50"></i>
+                          MANAGE
                         </Button>
                       </td>
                     </tr>
@@ -265,69 +274,71 @@ function AdminDashboard() {
         </Card>
 
         {/* Adjust Balance Modal */}
-        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static">
           <Form onSubmit={handleAdjustSubmit}>
-            <Modal.Header closeButton>
-              <Modal.Title>Manage Minutes</Modal.Title>
+            <Modal.Header closeButton className="border-0 pb-0">
+              <Modal.Title className="fw-bold d-flex align-items-center">
+                <div className="bg-dark text-white rounded-3 p-2 me-3 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
+                  <i className="bi bi-clock-history fs-5"></i>
+                </div>
+                Manage User Minutes
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="pt-4">
               {selectedUser && (
                 <>
-                  <div className="mb-4 p-3 bg-light rounded d-flex justify-content-between align-items-center">
-                    <div>
-                      <small className="text-muted d-block">
-                        Current Balance
-                      </small>
-                      <strong className="h4 mb-0">
-                        {selectedUser.wallet?.minutesBalance} mins
-                      </strong>
+                  <div className="mb-4 p-4 rounded-4 border-0 shadow-sm position-relative overflow-hidden" style={{ background: '#f8fafc' }}>
+                    <div className="position-absolute bottom-0 end-0 opacity-03 pe-2 mb-n2">
+                       <i className="bi bi-person-fill" style={{ fontSize: '64px', filter: 'grayscale(1)' }}></i>
                     </div>
-                    <div className="text-end">
-                      <small className="text-muted d-block">User</small>
-                      <span className="fw-semibold">{selectedUser.name}</span>
+                    <div className="position-relative" style={{ zIndex: 1 }}>
+                      <div className="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                          <small className="text-muted fw-bold text-uppercase" style={{ fontSize: '10px', letterSpacing: '0.05em' }}>Target User</small>
+                          <h6 className="mb-0 fw-bold text-dark">{selectedUser.name}</h6>
+                          <div className="text-muted x-small" style={{ fontSize: '11px' }}>{selectedUser.email}</div>
+                        </div>
+                        <Badge bg="light" className="text-dark border-0 shadow-sm small fw-bold" style={{ borderRadius: '6px' }}>{selectedUser.company || 'Personal'}</Badge>
+                      </div>
+                      <div className="pt-3" style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                        <small className="text-muted fw-bold text-uppercase d-block mb-1" style={{ fontSize: '10px' }}>Current Balance</small>
+                        <div className="d-flex align-items-baseline">
+                          <h2 className="mb-0 fw-bold text-dark" style={{ letterSpacing: '-0.02em' }}>{selectedUser.wallet?.minutesBalance}</h2>
+                          <span className="ms-2 text-muted fw-bold" style={{ fontSize: '10px', letterSpacing: '0.05em' }}>MINUTES</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Mode Toggle */}
-                  <div className="d-flex mb-3 bg-light p-1 rounded">
-                    <Button
-                      variant={
-                        adjustFormData.mode === "add" ? "white" : "light"
-                      }
-                      className={`flex-fill border-0 shadow-sm ${
-                        adjustFormData.mode === "add"
-                          ? "text-success fw-bold"
-                          : "text-muted"
-                      }`}
-                      onClick={() =>
-                        setAdjustFormData({ ...adjustFormData, mode: "add" })
-                      }
+                  {/* Mode Toggle - Modern Segmented Control */}
+                  <label className="fw-bold small text-muted text-uppercase mb-2 mb-2 d-block px-1">Action Type</label>
+                  <div className="d-flex mb-4 bg-light p-1 rounded-3 border" style={{ height: '48px' }}>
+                    <div 
+                      className={`flex-fill d-flex align-items-center justify-content-center rounded-2 cursor-pointer transition-all ${adjustFormData.mode === "add" ? 'bg-white shadow-sm text-success fw-bold border' : 'text-muted'}`}
+                      onClick={() => setAdjustFormData({ ...adjustFormData, mode: "add" })}
+                      style={{ cursor: 'pointer' }}
                     >
-                      <i className="bi bi-plus-circle me-2"></i> Add Minutes
-                    </Button>
-                    <Button
-                      variant={
-                        adjustFormData.mode === "deduct" ? "white" : "light"
-                      }
-                      className={`flex-fill border-0 ${
-                        adjustFormData.mode === "deduct"
-                          ? "text-danger fw-bold shadow-sm"
-                          : "text-muted"
-                      }`}
-                      onClick={() =>
-                        setAdjustFormData({ ...adjustFormData, mode: "deduct" })
-                      }
+                      <i className={`bi bi-plus-circle-fill me-2 ${adjustFormData.mode === "add" ? 'text-success' : 'opacity-50'}`}></i>
+                      Add Minutes
+                    </div>
+                    <div 
+                      className={`flex-fill d-flex align-items-center justify-content-center rounded-2 cursor-pointer transition-all ${adjustFormData.mode === "deduct" ? 'bg-white shadow-sm text-danger fw-bold border' : 'text-muted'}`}
+                      onClick={() => setAdjustFormData({ ...adjustFormData, mode: "deduct" })}
+                      style={{ cursor: 'pointer' }}
                     >
-                      <i className="bi bi-dash-circle me-2"></i> Deduct
-                    </Button>
+                      <i className={`bi bi-dash-circle-fill me-2 ${adjustFormData.mode === "deduct" ? 'text-danger' : 'opacity-50'}`}></i>
+                      Deduct
+                    </div>
                   </div>
 
                   <Form.Group className="mb-3">
-                    <Form.Label>Amount (Minutes)</Form.Label>
+                    <Form.Label className="fw-bold small text-muted text-uppercase px-1">Amount (Minutes)</Form.Label>
                     <Form.Control
                       type="number"
                       min="1"
                       placeholder="e.g., 30"
+                      className="py-2 border-slate shadow-none"
+                      style={{ borderRadius: '10px' }}
                       value={adjustFormData.minutes}
                       onChange={(e) =>
                         setAdjustFormData({
@@ -339,12 +350,14 @@ function AdminDashboard() {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Reason (Required for audit log)</Form.Label>
+                  <Form.Group className="mb-0">
+                    <Form.Label className="fw-bold small text-muted text-uppercase px-1">Change Reason</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={2}
-                      placeholder="e.g., Bonus for signup, Refund for failed interview..."
+                      placeholder="e.g., Refund for failed session..."
+                      className="py-2 border-slate shadow-none"
+                      style={{ borderRadius: '10px', resize: 'none' }}
                       value={adjustFormData.reason}
                       onChange={(e) =>
                         setAdjustFormData({
@@ -358,19 +371,21 @@ function AdminDashboard() {
                 </>
               )}
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="light" onClick={() => setShowModal(false)}>
-                Cancel
+            <Modal.Footer className="border-0 pt-0 pb-4 px-4 gap-2">
+              <Button variant="light" className="flex-fill fw-bold py-2 border" style={{ borderRadius: '10px' }} onClick={() => setShowModal(false)}>
+                CANCEL
               </Button>
               <Button
-                variant={adjustFormData.mode === "add" ? "success" : "danger"}
+                variant={adjustFormData.mode === "add" ? "dark" : "danger"}
                 type="submit"
+                className="flex-fill fw-bold py-2 shadow-sm"
+                style={{ borderRadius: '10px' }}
                 disabled={submitting}
               >
                 {submitting
-                  ? "Processing..."
-                  : `Confirm ${
-                      adjustFormData.mode === "add" ? "Addition" : "Deduction"
+                  ? "PROCESSING..."
+                  : `CONFIRM ${
+                      adjustFormData.mode === "add" ? "ADDITION" : "DEDUCTION"
                     }`}
               </Button>
             </Modal.Footer>
@@ -388,25 +403,32 @@ function AdminDashboard() {
       {/* Custom Styles overrides if needed */}
       <style jsx>{`
         .bg-primary-subtle {
-          background-color: rgba(59, 130, 246, 0.1) !important;
+          background-color: rgba(0, 0, 0, 0.05) !important;
         }
         .bg-success-subtle {
-          background-color: rgba(31, 162, 166, 0.1) !important;
+          background-color: rgba(12, 148, 136, 0.1) !important;
         }
-        .bg-warning-subtle {
-          background-color: rgba(245, 158, 11, 0.1) !important;
+        .bg-danger-subtle {
+          background-color: rgba(220, 38, 38, 0.1) !important;
         }
         .text-primary {
-          color: #3b82f6 !important;
+          color: #000000 !important;
         }
         .text-success {
-          color: #1fa2a6 !important;
-        }
-        .text-warning {
-          color: #f59e0b !important;
+          color: #0c9488 !important;
         }
         .avatar-initial {
           font-size: 1.2rem;
+          background: #000000 !important;
+          color: white !important;
+        }
+        :global(.manage-btn) {
+          transition: all 0.2s ease !important;
+        }
+        :global(.manage-btn:hover) {
+          background: #000000 !important;
+          color: #ffffff !important;
+          transform: translateY(-1px);
         }
       `}</style>
     </Layout>

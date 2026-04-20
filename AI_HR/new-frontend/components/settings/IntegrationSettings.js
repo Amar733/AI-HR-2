@@ -40,8 +40,8 @@ export default function IntegrationSettings() {
     <Card className="border-0 shadow-sm">
       <Card.Header className="bg-white border-bottom py-3">
         <div className="d-flex align-items-center">
-          <i className="bi bi-plug-fill text-info fs-4 me-2"></i>
-          <h5 className="mb-0 fw-semibold">Integrations</h5>
+          <i className="bi bi-plug-fill text-dark fs-4 me-2"></i>
+          <h5 className="mb-0 fw-bold">Integrations</h5>
         </div>
         <p className="text-muted small mb-0 mt-1">Connect third-party services to enhance your workflow</p>
       </Card.Header>
